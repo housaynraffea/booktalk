@@ -13,4 +13,4 @@ Denne kapittlet skal senere forklare hvordan man skal åpne/kjøre prosjektet. H
 
 ## Lenke til nettsiden
 
-Lenke til nettsiden: [klikk her](https://web01.usn.no/~274694)
+Lenke til nettsiden: [klikk her](https://housaynraffea.github.io/booktalk/)
