@@ -1,22 +1,30 @@
 # BookTalk
-(Dette prosjektet blir utviklet underveis, så endringer kan komme i README-filen også.)
 
-**BookTalk** er et sosialt bok-anmeldingssystem hvor brukere kan søke etter, og *anmelde* bøker som de har lest (ved å sette på *1-5 stjerner* og et *valgfritt beskrivelse* av anmeldelsen), og hvor andre brukere kan også *kommentere* på anmeldelsene. Andre folk kan også *like* anmeldelsene, hvor det etterhvert dukker opp hos brukerens egen profil-side. Anmeldelsene brukeren likte er bare tilgjengelig hos dem, ikke hos andre. På hjemmesiden, så kan man se *anbefalte bøker* (for brukeren), og *populære bøker* (for alle). Brukeren kan bestemme om de vil fjerne disse to funksjonene fra hjemmesiden i nettsidens *innstillinger*. Andre ting man kan gjøre i *innstillinger*-siden er (for eksempel), endre på profilbilde, brukernavn og passord.
+(This project is actively being developed, so changes can come to the README-file too.)
 
-BookTalk er inspirert av letterboxd.
+**BookTalk** is a 'social' book-reviewing website where users can search for and *review* books that they have read (by putting *1-5 stars* and an *optional description* of the review), and where other users can also *comment* on the reviews. Other people can also *like* the reviews, which eventually appear on the user's own profile page. The reviews the user liked are only available for them on their own profile page, not to others. On the homepage, you can see *recommended books* (for you), and *popular books* (for everyone). The user can decide if they want to remove these two features from the homepage in the website's *settings*. Other things you can do in the *settings* page are (for example), change your profile picture, username and password.
 
-## Teknologier brukt
+BookTalk is inspired by letterboxd.
 
-- Software: VSCodium (telemetri-fritt versjon av Visual Studio Code)
+## Technology used
+
+- Software: VSCodium (telemetry-free version of Visual Studio Code)
   - Extensions: Live Server, Prettier, Error Lens
-- Rammeverk: React med Vite
-- Programmeringsspråk: TypeScript
+- Framework: React med Vite
+- Programming language: TypeScript
 - Linter: Oxlint
 
-## Kom i gang
+## Get started
 
-Denne kapittlet skal senere forklare hvordan man skal åpne/kjøre prosjektet. Her er det ingenting.
+### Scripts
 
-## Lenke til nettsiden
+| Command           | What it does                                   |
+| ----------------- | -----------------------------------------------|
+| `npm run dev`     | Start the Vite dev server                      |
+| `npm run build`   | Type-check (`tsc -b`) and build for production |
+| `npm run preview` | Serve the production build locally             |
+| `npm run lint`    | Lint with oxlint                               |
 
-Lenke til nettsiden: [klikk her](https://housaynraffea.github.io/booktalk/)
+## Website
+
+Link to the website: [BookTalk](https://housaynraffea.github.io/booktalk/)
