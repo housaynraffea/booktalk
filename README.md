@@ -29,7 +29,7 @@ Unfortunately, since I know this is public, and since I know that many people ca
 
 ## Get started
 
-## Project structure
+### Project structure
 
 ```
 .
