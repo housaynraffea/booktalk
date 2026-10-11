@@ -4,7 +4,20 @@
 
 **BookTalk** is a 'social' book-reviewing website where users can search for and *review* books that they have read (by putting *1-5 stars* and an *optional description* of the review), and where other users can also *comment* on the reviews. Other people can also *like* the reviews, which eventually appear on the user's own profile page. The reviews the user liked are only available for them on their own profile page, not to others. On the homepage, you can see *recommended books* (for you), and *popular books* (for everyone). The user can decide if they want to remove these two features from the homepage in the website's *settings*. Other things you can do in the *settings* page are (for example), change your profile picture, username and password.
 
+BookTalk uses the OpenBook API for the following features in the project:
+
+- Searching for books (either by book title, book author or book publisher)
+- Showing the book cover, book title, book description (if available), book author and the book publisher for:
+  - Reviews from users that use said book
+  - Home-page's "For you"-section (Cover only)
+  - Home-page's "Popular"-section (Cover only)
+  - The "Favourite book" for a user's profile page (Cover only)
+  - The list of reviews on books that a user has made, available on their profile page (Cover only)
+  - The private list of liked reviews, available (privately) on a user's profile page (Cover only)
+
 BookTalk is inspired by letterboxd.
+
+Unfortunately, since I know this is public, and since I know that many people can come in and post Issues and Pull Requests to this GitHub project, I cannot accept any requests or changes from other users as this is an academic project for USN (University of South-Eastern Norway). I am the only one that can authorize and make changes to this GitHub repository.
 
 ## Technology used
 
