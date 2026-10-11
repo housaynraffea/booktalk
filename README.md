@@ -29,6 +29,34 @@ Unfortunately, since I know this is public, and since I know that many people ca
 
 ## Get started
 
+## Project structure
+
+```
+.
+├── index.html               Main app entry
+├── public/                  Static assets
+└── src/
+    ├── main.tsx             Main app render
+    ├── pages/               Route-level pages
+    ├── features/
+    │   ├── auth/            Login page, login entry point, useSession hook
+    │   └── routes/          AppRoutes: the app's route table
+    ├── common/
+    │   ├── components/      Shared UI components
+    │   ├── hooks/           Shared hooks
+    │   ├── utils/           Helpers
+    │   ├── types/           Shared TypeScript types
+    │   ├── constants/       Shared constants
+    │   ├── context/         React context providers
+    │   ├── assets/          Images, fonts, etc.
+    │   └── styles/          Global and shared CSS
+    └── api/
+```
+
+Imports across folders use the `@/` alias, which maps to `src/`
+(for example `@/common/components/navbar`). It is configured in both
+`vite.config.ts` and `tsconfig.app.json`, so keep the two in sync.
+
 ### Scripts
 
 | Command           | What it does                                   |
