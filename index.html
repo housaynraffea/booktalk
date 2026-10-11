@@ -1,24 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="styles.css">
-        <script src="script.js"></script>
-        <title>Home</title>
-    </head>
-    <body class="bg">
-        <div class="login-black-bg">
-            <div class="login-bg-center">
-                <h1>LOG IN</h1>
-			    <p>Welcome to my website!<br> You have to log in first (by using a super-duper-secret-<br>but-not-so-super-duper-secret username and password).</p>
-                <input id="username" placeholder="USERNAME" class="login-black-bg-input">
-
-                <input id="password" placeholder="PASSWORD" class="login-black-bg-input" type="password">
-                <br>
-                <p id="login-evaluator-text" class="login-evaluator"></p>
-                <br>
-                <button id="login-button" class="login-black-bg-btn" onclick="evaluate_login()">LOG IN</button>
-                </p>
-            </div>
-        </div>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>booktalk</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
