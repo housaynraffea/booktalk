@@ -55,7 +55,7 @@ Unfortunately, since I know this is public, and since I know that many people ca
 
 Imports across folders use the `@/` alias, which maps to `src/`
 (for example `@/common/components/navbar`). It is configured in both
-`vite.config.ts` and `tsconfig.app.json`, so keep the two in sync.
+`vite.config.ts` and `tsconfig.app.json`, so make sure that you keep the two in sync.
 
 ### Scripts
 
