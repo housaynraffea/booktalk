@@ -7,8 +7,11 @@ BookTalk er inspirert av letterboxd.
 
 ## Teknologier brukt
 
-- VSCodium (telemetri-fritt versjon av Visual Studio Code)
-  - Extensions: Live Server, Prettier, Error Lens, Python
+- Software: VSCodium (telemetri-fritt versjon av Visual Studio Code)
+  - Extensions: Live Server, Prettier, Error Lens
+- Rammeverk: React med Vite
+- Programmeringsspråk: TypeScript
+- Linter: Oxlint
 
 ## Kom i gang
 
