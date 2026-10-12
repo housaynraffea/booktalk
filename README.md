@@ -66,6 +66,10 @@ Imports across folders use the `@/` alias, which maps to `src/`
 | `npm run preview` | Serve the production build locally             |
 | `npm run lint`    | Lint with oxlint                               |
 
+### API
+
+This project is planned to have APIs of its own. In the future, the API methods will be shown here.
+
 ## Website
 
 Link to the website: [BookTalk](https://housaynraffea.github.io/booktalk/)
