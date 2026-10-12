@@ -23,7 +23,7 @@ Unfortunately, since I know this is public, and since I know that many people ca
 
 - Software: VSCodium (telemetry-free version of Visual Studio Code) or just Visual Studio Code
   - Extensions: Live Server, Prettier, Error Lens
-- Framework: React med Vite
+- Framework: React + Vite
 - Programming language: TypeScript
 - Linter: Oxlint
 
