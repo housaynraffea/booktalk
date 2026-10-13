@@ -1,12 +1,13 @@
 import './navbar.css';
 import { Link } from 'react-router-dom';
+import SearchField from '@/common/components/search-field/search-field';
 
 const Navbar = () => {
   return (
     <div className="navbar">
-      <Link className="navbar-btn" to="/">Home</Link>
-      <Link className="navbar-btn" to="/search">Search</Link>
-      <Link className="navbar-btn" to="/profile">Profile</Link>
+      <div id="left"><Link to="/">Home</Link></div>
+      <div id="middle"><SearchField/></div>
+      <div id="right"><Link to="/profile">Profile</Link></div>
     </div>
   );
 };
