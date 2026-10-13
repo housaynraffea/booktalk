@@ -5,7 +5,14 @@
     vertical-align: text-top;
     background-color: #333333;
     border-radius: 15px;
+    
     color: white;
     width: 20rem;
     height: 15rem;
+}
+
+a {
+    text-decoration: none;
+    text-decoration-color: none;
+    color: white;
 }
