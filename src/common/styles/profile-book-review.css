@@ -1,0 +1,11 @@
+.book-review {
+    display: inline-flex;
+    flex-direction: row;
+    text-align:start;
+    vertical-align: text-top;
+    background-color: #333333;
+    border-radius: 15px;
+    color: white;
+    width: 20rem;
+    height: 15rem;
+}

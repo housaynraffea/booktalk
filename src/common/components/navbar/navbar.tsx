@@ -1,4 +1,4 @@
-import './navbar.css';
+import '@/common/styles/navbar.css';
 import SearchField from '@/common/components/search-field/search-field';
 import HomeButton from '../home-btn/home-btn';
 import ProfileButton from '../profile-btn/profile-btn';

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import './search-field.css';
+import '@/common/styles/search-field.css';
 
 const SearchField = () => {
     const something = "";

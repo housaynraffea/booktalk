@@ -1,0 +1,51 @@
+.profile-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: gray;
+    border-radius: 15px;
+    margin: 1rem;
+    padding: 1rem;
+    background-color: purple;
+}
+
+/* temporary; until i can find a way to dynamically set the space between profile elements this will be replaced */
+.profile-panel-spacer-left {
+    width: 25px;
+}
+
+.profile-panel-spacer-right {
+    width: 500px;
+}
+
+.profile-favourite-book-panel {
+    text-align: center;
+    background-color: blueviolet;
+    color: white;
+    border-radius: 10px;
+    margin-right: -0.5rem;
+    margin-top: -1.75rem;
+    margin-bottom: -0.5rem;
+    width: 14rem;
+    height: 18rem;
+    
+    h4 {
+        margin-bottom: 0;
+    }
+}
+
+.profile-panel-accountinfo {
+    display: flex;
+    color: white;
+    flex-direction: column;
+    text-align:start;
+    vertical-align: text-top;
+    width: 500px;
+    height: 300px;
+}
+
+.profile-reviews-panel {
+    align-items: center;
+    justify-content: center;
+    color: white;
+}

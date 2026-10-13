@@ -4,7 +4,7 @@ const HomeButton = () => {
     return (
         <div>
             <Link to="/">
-                <img src="/public/buttons/HomeButton.svg" width="35px"/>
+                <img src="/buttons/HomeButton.svg" width="35px"/>
             </Link>
         </div>
     );
