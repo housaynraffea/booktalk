@@ -23,13 +23,13 @@ Unfortunately, since I know this is public, and since I know that many people ca
 
 - Software: VSCodium (telemetry-free version of Visual Studio Code) or just Visual Studio Code
   - Extensions: Live Server, Prettier, Error Lens
-- Framework: React med Vite
+- Framework: React + Vite
 - Programming language: TypeScript
 - Linter: Oxlint
 
 ## Get started
 
-## Project structure
+### Project structure
 
 ```
 .
@@ -55,7 +55,7 @@ Unfortunately, since I know this is public, and since I know that many people ca
 
 Imports across folders use the `@/` alias, which maps to `src/`
 (for example `@/common/components/navbar`). It is configured in both
-`vite.config.ts` and `tsconfig.app.json`, so keep the two in sync.
+`vite.config.ts` and `tsconfig.app.json`, so make sure that you keep the two in sync.
 
 ### Scripts
 
@@ -65,6 +65,10 @@ Imports across folders use the `@/` alias, which maps to `src/`
 | `npm run build`   | Type-check (`tsc -b`) and build for production |
 | `npm run preview` | Serve the production build locally             |
 | `npm run lint`    | Lint with oxlint                               |
+
+### API
+
+This project is planned to have APIs of its own. In the future, the API methods will be shown here.
 
 ## Website
 
