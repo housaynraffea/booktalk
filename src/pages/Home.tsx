@@ -10,7 +10,7 @@ const Home = () => {
         <div className="center welcome">
           <table>
             <tr>
-              <td><img src="/favicon.svg" width="200px"/></td>
+              <td><img src="/booktalk-icon.svg" width="200px"/></td>
               <td className="welcome-spacer"/>
               <td>
                 <h1>Welcome to BookTalk!</h1>
