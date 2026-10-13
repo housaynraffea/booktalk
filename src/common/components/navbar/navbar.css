@@ -5,43 +5,34 @@
   height: 0.5rem;
   align-items: center;
   justify-content: center;
-  gap: auto;
   padding: 1rem;
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   background-color: #892686;
-  transition: all 0.125s ease-in-out;
 }
 
-.navbar #left{
+.navbar-left{
   display: flex;
   align-items: center;
   justify-content: flex-start;
   margin-right: auto;
-  gap: 1.5rem;
+  margin-left: -0.75rem;
+  margin-bottom: -0.3rem;
 }
 
-.navbar #middle{
+.for-later-use {
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar-middle{
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.navbar #right{
+.navbar-right{
   display: flex;
   align-items: center;
   justify-content: flex-end;
   margin-left: auto;
-  gap: 1.5rem; 
-}
-
-.navbar:hover {
-  background-color: #82247e;
-  transition: all 0.125s ease-in-out;
-}
-
-.navbar-btn:hover,
-.navbar-btn:focus-visible {
-  color: var(--text-h);
+  margin-right: -0.75rem;
+  margin-bottom: -0.3rem;
 }
