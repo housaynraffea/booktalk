@@ -38,6 +38,7 @@ const Profile = () => {
 
         <div className="profile-reviews-panel">
             <table className="center">
+              <tr className="panel-row-between"/>
               <tr>
                 <td><h3>Reviews</h3></td>
               </tr>
