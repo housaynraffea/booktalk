@@ -6,9 +6,9 @@ import ProfileButton from '../profile-btn/profile-btn';
 const Navbar = () => {
   return (
     <div className="navbar">
-      <div className="navbar-left"><HomeButton/></div>
-      <div className="navbar-middle"><SearchField/></div>
-      <div className="navbar-right"><ProfileButton/></div>
+      <div className="navbarLeft"><HomeButton/></div>
+      <div className="navbarMiddle"><SearchField/></div>
+      <div className="navbarRight"><ProfileButton/></div>
     </div>
   );
 };

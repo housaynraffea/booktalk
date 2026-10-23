@@ -9,7 +9,7 @@
   background-color: #892686;
 }
 
-.navbar-left{
+.navbarLeft{
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -22,13 +22,13 @@
   transition: all 0.3s ease-in-out;
 }
 
-.navbar-middle{
+.navbarMiddle{
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.navbar-right{
+.navbarRight{
   display: flex;
   align-items: center;
   justify-content: flex-end;

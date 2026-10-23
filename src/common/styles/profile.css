@@ -1,51 +1,88 @@
-.profile-panel {
+.profile {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: gray;
-    border-radius: 15px;
-    margin: 1rem;
-    padding: 1rem;
-    background-color: purple;
-}
-
-/* temporary; until i can find a way to dynamically set the space between profile elements this will be replaced */
-.profile-panel-spacer-left {
-    width: 25px;
-}
-
-.profile-panel-spacer-right {
-    width: 500px;
-}
-
-.profile-favourite-book-panel {
-    text-align: center;
-    background-color: blueviolet;
-    color: white;
-    border-radius: 10px;
-    margin-right: -0.5rem;
-    margin-top: -1.75rem;
-    margin-bottom: -0.5rem;
-    width: 14rem;
-    height: 18rem;
-    
-    h4 {
-        margin-bottom: 0;
-    }
-}
-
-.profile-panel-accountinfo {
-    display: flex;
-    color: white;
     flex-direction: column;
-    text-align:start;
-    vertical-align: text-top;
-    width: 500px;
-    height: 300px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
 }
 
-.profile-reviews-panel {
+.profilePanel {
+    display: flex;
     align-items: center;
     justify-content: center;
+    width: 90%;
+    gap: 1rem;
+    padding: 0.5rem;
+    background-color: purple;
+    border-radius: 15px;
+}
+
+.profilePicture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.profileFavouriteBook {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin-left: auto;
+    width: 20%;
+    background-color: rgba(0, 0, 0, 0.25);
+    padding: 1rem;
+}
+
+.profileFavouriteBookHeader {
+    display: flex;
     color: white;
+    font-size: 24px;
+}
+
+.profileFavouriteBookContainer {
+    display: flex;
+}
+
+.profileReviewsPanel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    background-color: rgba(44, 44, 44);
+    border-radius: 15px;
+    padding: 1rem;
+    width: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.profileReviewsPanelHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    margin-top: -1rem;
+}
+
+.profileReviewsPanelBody {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.profileReviewCard {
+    flex: 1 1 calc(33.333% - 100px);
+    box-sizing: border-box;
+    width: 10rem;
 }

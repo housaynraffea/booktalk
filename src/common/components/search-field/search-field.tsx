@@ -28,7 +28,7 @@ const SearchField = () => {
 
   return (
     <div>
-        <input className="search-input"
+        <input className="searchInput"
                     type="text"
                     value={searchItem}
                     onChange={handleInputChange}

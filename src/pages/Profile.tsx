@@ -2,55 +2,46 @@ import Navbar from '@/common/components/navbar/navbar';
 import '@/common/styles/profile.css';
 import '@/common/styles/index.css';
 import Footer from '@/common/components/footer/footer';
-import ProfileBookReview from '@/common/components/profile/profile-book-review';
+import ProfileBookReviewCard from '@/common/components/profile/profile-book-review-card';
 
 const Profile = () => {
   return (
     <div>
         <Navbar/>
-        <div className="profile-panel">
-          <table>
-            <tr>
-              <td>
-                <div>
-                  <img src="/buttons/ProfileButton.svg" width="250px" height="250px"/>
-                </div>
-              </td>
-              <td className="profile-panel-spacer-left"/>
-              <td>
-                  <div className="profile-panel-accountinfo">
-                    <div><h1>Display name</h1></div>
-                    <div><h2>@username</h2></div>
-                    <div><p>bio</p></div>
-                  </div>
-              </td>
-              <td className="profile-panel-spacer-right"/>
-              <td>
-                <div className="profile-favourite-book-panel">
-                  <h4>Favourite book:</h4>
-                  <img src="/book-example.png" width="175px"/>
-                </div>
-              </td>
+        <div className="profile">
+          <div className="profilePanel">
+            <div className="profilePicture">
+              <img src="/buttons/ProfileButton.svg" width="250px" height="250px"/>
+            </div>
+            <div className="profileInfo">
+              <h1>Display name</h1>
+              <h2>@username</h2>
+              <p>bio</p>
+            </div>
+            <div className="profileFavouriteBook">
+              <div className="profileFavouriteBookHeader">
+                <h4>Favourite book:</h4>
+              </div>
+              <div className="profileFavouriteBookContainer">
+                <img src="/book-example.png" width="175px"/>
+              </div>
+            </div>
+          </div>
 
-            </tr>
-          </table>
+          <div className="profileReviewsPanel">
+            <div className="profileReviewsPanelHeader">
+              <h3>Reviews</h3>
+            </div>
+            <div className="profileReviewsPanelBody">
+              <div className="profileReviewCard"><ProfileBookReviewCard/></div>
+              <div className="profileReviewCard"><ProfileBookReviewCard/></div>
+              <div className="profileReviewCard"><ProfileBookReviewCard/></div>
+              <div className="profileReviewCard"><ProfileBookReviewCard/></div>
+              <div className="profileReviewCard"><ProfileBookReviewCard/></div>
+              <div className="profileReviewCard"><ProfileBookReviewCard/></div>
+            </div>
+          </div>
         </div>
-
-        <div className="profile-reviews-panel">
-            <table className="center">
-              <tr className="panel-row-between"/>
-              <tr>
-                <td><h3>Reviews</h3></td>
-              </tr>
-              <tr className="panel-row-between"/>
-              <tr>
-                <td><ProfileBookReview/></td>
-                <td><ProfileBookReview/></td>
-                <td><ProfileBookReview/></td>
-              </tr>
-            </table>
-        </div>
-        <br/>
         <Footer/>
     </div>
   );
