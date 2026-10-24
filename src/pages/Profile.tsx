@@ -1,7 +1,7 @@
-import Navbar from '@/common/components/navbar/navbar';
+import Navbar from '@/common/components/global/navbar';
 import '@/common/styles/profile.css';
 import '@/common/styles/index.css';
-import Footer from '@/common/components/footer/footer';
+import Footer from '@/common/components/global/footer';
 import ProfileBookReviewCard from '@/common/components/profile/profile-book-review-card';
 
 const Profile = () => {
@@ -23,7 +23,7 @@ const Profile = () => {
                 <h4>Favourite book:</h4>
               </div>
               <div className="profileFavouriteBookContainer">
-                <img src="/book-example.png" width="175px"/>
+                <img src="/book-example.png" width="250px"/>
               </div>
             </div>
           </div>

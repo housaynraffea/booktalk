@@ -1,0 +1,169 @@
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.review {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    border-radius: 15px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    color: white;
+    width: 80%;
+    background-color: #3D3D3D;
+}
+
+.reviewContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: auto;
+    padding: 1.25rem;
+    gap: 1rem;
+}
+
+.reviewBookCover {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.reviewInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: auto;
+}
+
+.reviewHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: auto;
+}
+
+.reviewHeaderProfilePicture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reviewHeaderInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.reviewHeaderInfo h3 {
+    margin-top: 0.1rem;
+    margin-bottom: 0.2rem;
+}
+
+.reviewStars {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    margin-right: auto;
+    border-radius: 30px;
+    width: fit-content;
+    height: fit-content;
+    padding: 0.4rem;
+    gap: 0.25rem;
+}
+
+.reviewBody {
+    display: flex;
+    flex-direction: column;
+}
+
+.reviewDescription {
+    display: flex;
+}
+
+.reviewFooter {
+    display: flex;
+    flex-direction: row;
+    margin-top: 16.5rem;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.reviewDates {
+    display: flex;
+    flex-direction: column;
+    margin-right: 40rem;
+}
+
+.reviewLikes {
+    display: flex;
+}
+
+.comments {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    margin-bottom: auto;
+    width: 100%;
+}
+
+.commentsHeader {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.commentsBody {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1rem;
+    gap: 0.5rem;
+}
+
+.comment {
+    display: flex;
+    gap: 0.5rem;
+    background-color: #3D3D3D;
+    padding: 0.75rem;
+    border-radius: 15px;
+    width: 68rem;
+}
+
+.commentProfilePicture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.commentInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.commentProfileDisplayName {
+    display: flex;
+    margin-bottom: -1rem;
+    margin-top: -1.3rem;
+}
+
+.commentDescription {
+    display: flex;
+}

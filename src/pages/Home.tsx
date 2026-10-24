@@ -1,7 +1,7 @@
-import Navbar from '@/common/components/navbar/navbar';
+import Navbar from '@/common/components/global/navbar';
 import '@/common/styles/index.css';
 import '@/common/styles/home.css';
-import Footer from '@/common/components/footer/footer';
+import Footer from '@/common/components/global/footer';
 
 const Home = () => {
   const recommendedRandomQuotes = [

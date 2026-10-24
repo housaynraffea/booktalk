@@ -1,4 +1,4 @@
-import Navbar from '@/common/components/navbar/navbar';
+import Navbar from '@/common/components/global/navbar';
 import '@/common/styles/index.css';
 
 const Search = () => {
