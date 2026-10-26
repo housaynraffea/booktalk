@@ -31,6 +31,7 @@
 }
 
 .bookSuggestionPanel {
+    position: relative;
     display: inherit;
     flex-direction: inherit;
     align-items: center;
@@ -53,24 +54,24 @@
 
 .recommendedRandomQuote {
     position: absolute;
-    top: 42%;
-    left: 14%;
+    top: 5%;
+    left: -5%;
     padding: 0.25rem;
     border-radius: 5px;
     border-color: inherit;
-    background-color: blueviolet;
-    rotate: -10deg;
+    rotate: -8deg;
 }
 
 .popularRandomQuote {
     position: absolute;
-    top: 82%;
-    left: 74%;
+    top: 5%;
+    left: -5%;
+    white-space: nowrap;
+    overflow: hidden;
     padding: 0.25rem;
     border-radius: 5px;
     border-color: inherit;
-    background-color:purple;
-    rotate: 10deg;
+    rotate: -8deg;
 }
 
 .bookSuggestionPanelBody {
@@ -81,17 +82,19 @@
 
 .popularityTimeFrameSelector {
     display: inherit;
-    height: 1.65rem;
+    height: 1.75rem;
+    font-size: 16px;
     border: none;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
 }
 
-#recommended {
+#recommended-color {
     background-color: purple;
 }
 
-#popular {
+
+#popular-color {
     background-color: blueviolet;
 }

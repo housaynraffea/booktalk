@@ -8,18 +8,21 @@ const Home = () => {
     "Tailored for you!", 
     "You should read these next!", 
     "Fresh out the bakery!",
-    "New books for you!"];
+    "New books for you!"
+  ];
   
   const popularRandomQuotes = [
-    "Something's HOT on THIS calendar!", 
-    "Check out what people are reading!", 
-    "Lovely day for something new!", 
-    "Let's talk about these books!"];
+    "Popular!",
+    "Everybody is reading!",
+    "Talk about these Books!",
+    "Extry! Extry!"
+  ];
   
   const popularityTimeframe = [
     "This week", 
     "This month", 
-    "This year"];
+    "This year"
+  ];
   
   function randomize(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -39,9 +42,9 @@ const Home = () => {
         </div>
 
         <div className="bookSuggestionPanels">
-          <div id="recommended" className="bookSuggestionPanel">
+          <div id="recommended-color" className="bookSuggestionPanel">
             <div className="bookSuggestionPanelHeader">
-              <div className="recommendedRandomQuote"><p>{recommendedRandomQuotes[randomize(0, recommendedRandomQuotes.length - 1)]}</p></div>
+              <div id="popular-color" className="recommendedRandomQuote"><p>{recommendedRandomQuotes[randomize(0, recommendedRandomQuotes.length - 1)]}</p></div>
               <h3>Recommended</h3>
             </div>
             <div className="bookSuggestionPanelBody">
@@ -53,9 +56,9 @@ const Home = () => {
             </div>
           </div>
 
-          <div id="popular" className="bookSuggestionPanel">
+          <div id="popular-color" className="bookSuggestionPanel">
             <div className="bookSuggestionPanelHeader">
-              <div className="popularRandomQuote"><p>{popularRandomQuotes[randomize(0, recommendedRandomQuotes.length - 1)]}</p></div>
+              <div id="recommended-color" className="popularRandomQuote"><p>{popularRandomQuotes[randomize(0, recommendedRandomQuotes.length - 1)]}</p></div>
               <h3>Popular</h3>
               <select className="popularityTimeFrameSelector">
                 <option>{popularityTimeframe[0]}</option>
