@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Home from '@/pages/Home';
-import SignUp from '@/pages/auth/Signup';
-import SignIn from '@/pages/auth/Signin';
+import SignUp from '@/pages/auth/SignUp';
+import SignIn from '@/pages/auth/SignIn';
 import ResetPassword from '@/pages/auth/ResetPassword';
 import UpdatePassword from '@/pages/auth/UpdatePassword';
 import Search from '@/pages/Search';
