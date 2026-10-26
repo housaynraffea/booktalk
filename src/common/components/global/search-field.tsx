@@ -27,14 +27,12 @@ const SearchField = () => {
     }, [something, searchItem]);
 
   return (
-    <div>
-        <input className="searchInput"
-                    type="text"
-                    value={searchItem}
-                    onChange={handleInputChange}
-                    placeholder="Search for books, or add '@' at the beginning to search for users"
-                />
-    </div>
+    <input className="searchInput"
+        type="text"
+        value={searchItem}
+        onChange={handleInputChange}
+        placeholder="Search for books, or add '@' at the beginning to search for users"
+    />
   );
 };
 

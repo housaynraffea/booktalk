@@ -1,12 +1,12 @@
 import '@/common/styles/login.css';
 
-
-const Login = () => {
+const UpdatePassword = () => {
   return (
     <div>
+      <div className="center">
         <div className="siteRegister">
           <div className="siteRegisterHeader">
-            <h1>Login</h1>
+            <h1>Update Password</h1>
           </div>
 
           <div className="siteRegisterBody">
@@ -18,11 +18,12 @@ const Login = () => {
             
             <button>Forgot password?</button>
 
-            <button>Log in</button>
+            <button>Update Password</button>
           </div>
         </div>
+      </div>
     </div>
   );
 };
 
-export default Login;
+export default UpdatePassword;

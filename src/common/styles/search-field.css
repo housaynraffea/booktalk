@@ -1,10 +1,10 @@
 .searchInput {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
-    width: 27.3rem;
+    width: 35rem;
     height: 2rem;
     padding-left: 1.55rem;
     margin-left: 5%;
