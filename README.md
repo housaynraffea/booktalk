@@ -91,7 +91,7 @@ The `concurrently` npm package allows executing multiple commands, concurrently.
 | ----------------- | -----------------------------------|
 | `npm run dev`     | Starts both the client & the server|
 
-(This is why you see the `package.json` file on the root folder for the repo. It's important as it makes running two commands less of a hassle for me.)
+(This is why you see the `package.json` file on the root folder for the repo. It's important as it makes running two commands separately less of a hassle for me.)
 
 ### API
 
