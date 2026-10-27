@@ -4,7 +4,7 @@
 
 **BookTalk** is a 'social' book-reviewing website where users can search for and *review* books that they have read (by putting *1-5 stars* and an *optional description* of the review), and where other users can also *comment* on the reviews. Other people can also *like* the reviews, which eventually appear on the user's own profile page. The reviews the user liked are only available for them on their own profile page, not to others. On the homepage, you can see *recommended books* (for you), and *popular books* (for everyone). The user can decide if they want to remove these two features from the homepage in the website's *settings*. Other things you can do in the *settings* page are (for example), change your profile picture, username and password.
 
-BookTalk uses (or will use) the Open Library API for the following features in the project:
+BookTalk uses (or will use) the monthly dumps from the Open Library API for the following features in the project:
 
 - Searching for books (either by book title, book author or book publisher)
 - Showing the book cover, book title, book description (if available), book author and the book publisher for:
@@ -33,38 +33,65 @@ Unfortunately, since I know this is public, and since I know that many people ca
 
 ```
 .
-├── index.html               Main app entry
-├── public/                  Static assets
-└── src/
-    ├── main.tsx             Main app render
-    ├── pages/               Route-level pages
-    ├── features/
-    │   ├── auth/            Login page, login entry point, useSession hook
-    │   └── routes/          AppRoutes: the app's route table
-    ├── common/
-    │   ├── components/      Shared UI components
-    │   ├── hooks/           Shared hooks
-    │   ├── utils/           Helpers
-    │   ├── types/           Shared TypeScript types
-    │   ├── constants/       Shared constants
-    │   ├── context/         React context providers
-    │   ├── assets/          Images, fonts, etc.
-    │   └── styles/          Global and shared CSS
-    └── api/
+├── client/                      Client-side (React + Vite & TypeScript)
+│   ├── index.html               Main app entry
+│   ├── public/                  Static assets
+│   └── src/
+│       ├── main.tsx             Main app render
+│       ├── pages/               Route-level pages
+│       ├── features/
+│       │   ├── auth/            Login page, login entry point, useSession hook
+│       │   └── routes/          AppRoutes: the app's route table
+│       ├── common/
+│       │   ├── components/      Shared UI components
+│       │   ├── hooks/           Shared hooks
+│       │   ├── utils/           Helpers
+│       │   ├── types/           Shared TypeScript types
+│       │   ├── constants/       Shared constants
+│       │   ├── context/         React context providers
+│       │   ├── assets/          Images, fonts, etc.
+│       │   └── styles/          Global and shared CSS
+│       └── api/
+├── server/                      Server-side (PostgreSQL Database connections)
+    ├── index.ts                 Main file for the server
+    └── .env.example             Example environment file
 ```
 
-Imports across folders use the `@/` alias, which maps to `src/`
-(for example `@/common/components/navbar`). It is configured in both
-`vite.config.ts` and `tsconfig.app.json`, so make sure that you keep the two in sync.
+Imports across the client's folders use the `@/` alias, which maps to `src/`
+(for example `@/common/components/navbar`). It's configured in both
+`vite.config.ts` and `tsconfig.app.json` for the client-side code, so make sure that both files are synced there.
 
 ### Scripts
 
-| Command           | What it does                                   |
-| ----------------- | -----------------------------------------------|
-| `npm run dev`     | Start the Vite dev server                      |
-| `npm run build`   | Type-check (`tsc -b`) and build for production |
-| `npm run preview` | Serve the production build locally             |
-| `npm run lint`    | Lint with oxlint                               |
+#### Client
+
+The client (by default) listens on port 5173.
+
+| Command           | What it does                                  |
+| ----------------- | ----------------------------------------------|
+| `npm run dev`     | Start the Vite dev server                     |
+| `npm run build`   | Type-check (`tsc -b`) and build for production|
+| `npm run preview` | Serve the production build locally            |
+| `npm run lint`    | Lint with oxlint                              |
+
+#### Server
+
+(This part is still in development!)
+The server listens on port 3000.
+
+| Command           | What it does     |
+| ----------------- | -----------------|
+| `npm run dev`     | Starts the server|
+
+#### Project
+
+The `concurrently` npm package allows executing multiple commands, concurrently. This is especially great if a developer has more than one project in a repo, since it would be a hassle to have (for example) two terminals running at the same time to run both the client and the server. Simply running this command in the root will launch both the client and the server;
+
+| Command           | What it does                       |
+| ----------------- | -----------------------------------|
+| `npm run dev`     | Starts both the client & the server|
+
+(This is why you see the `package.json` file on the root folder for the repo. It's important as it makes running two commands less of a hassle for me.)
 
 ### API
 
