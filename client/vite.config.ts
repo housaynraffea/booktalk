@@ -8,4 +8,5 @@ export default defineConfig({
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },
   plugins: [react()],
+  server: { proxy: { "/api": "http://localhost:3000" } },
 })
