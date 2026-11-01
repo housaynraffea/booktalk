@@ -9,11 +9,11 @@ const ProfileBookReviewCard = () => {
         <Link to="/review">
             <div className="cardBody">
                 <div className="cardBookCover">
-                    <img src="/book-example.png" width="150px"/>
+                    <img src="/cover-placeholder.svg" width="150px"/>
                 </div>
                 <div className="cardInfo">
                     <div className="cardInfoHeader">
-                        <h4>Dungeon Crawler Caaaaaarl</h4>
+                        <h4>Book</h4>
                     </div>
                     
                     <div className="cardInfoStars">

@@ -11,7 +11,7 @@ const Review = () => {
       <div className="review">
         <div className="reviewContainer">
           <div className="reviewBookCover">
-            <p><img src="/book-example.png" width="300px"/></p>
+            <p><img src="/cover-placeholder.svg" width="300px"/></p>
           </div>
           <div className="reviewInfo">
 
@@ -34,7 +34,7 @@ const Review = () => {
 
             <div className="reviewBody">
               <div className="reviewDescription">
-                <p>Description (this is going to be a really really long description depicting Display name's reason for voting 3/5 stars for Matt Dinniman's 'Dungeon Crawler Carl')</p>
+                <p>Description (this is going to be a really really long description depicting Display name's reason for voting 3/5 stars for this book)</p>
               </div>
             </div>
 

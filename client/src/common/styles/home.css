@@ -18,7 +18,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 5rem;
-    margin-bottom: 5rem;
+    margin-bottom: 8.5rem;
     gap: 2rem;
 }
 
@@ -40,7 +40,7 @@
     border-radius: 10px;
     padding: 0.25rem;
     gap: 0.25rem;
-    width: 70%;
+    width: 95%;
     height: auto;
 }
 
@@ -55,7 +55,7 @@
 .recommendedRandomQuote {
     position: absolute;
     top: 5%;
-    left: -5%;
+    left: -1%;
     padding: 0.25rem;
     border-radius: 5px;
     border-color: inherit;
@@ -65,7 +65,7 @@
 .popularRandomQuote {
     position: absolute;
     top: 5%;
-    left: -5%;
+    left: -1%;
     white-space: nowrap;
     overflow: hidden;
     padding: 0.25rem;

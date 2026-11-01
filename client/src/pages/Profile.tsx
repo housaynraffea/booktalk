@@ -23,7 +23,7 @@ const Profile = () => {
                 <h4>Favourite book:</h4>
               </div>
               <div className="profileFavouriteBookContainer">
-                <img src="/book-example.png" width="250px"/>
+                <img src="/cover-placeholder.svg" width="250px"/>
               </div>
             </div>
           </div>

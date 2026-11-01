@@ -23,6 +23,8 @@ const Home = () => {
     "This month", 
     "This year"
   ];
+
+  const bookWidth = "287px";
   
   function randomize(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -48,11 +50,11 @@ const Home = () => {
               <h3>Recommended</h3>
             </div>
             <div className="bookSuggestionPanelBody">
-              <div><img src="/book-example.png" width="200px"/></div>
-              <div><img src="/book-example.png" width="200px"/></div>
-              <div><img src="/book-example.png" width="200px"/></div>
-              <div><img src="/book-example.png" width="200px"/></div>
-              <div><img src="/book-example.png" width="200px"/></div>
+              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
+              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
+              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
+              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
+              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
             </div>
           </div>
 
@@ -67,11 +69,11 @@ const Home = () => {
               </select>
             </div>
             <div className="bookSuggestionPanelBody">
-              <div><img src="/book-example.png" width="200px"/></div>
-              <div><img src="/book-example.png" width="200px"/></div>
-              <div><img src="/book-example.png" width="200px"/></div>
-              <div><img src="/book-example.png" width="200px"/></div>
-              <div><img src="/book-example.png" width="200px"/></div>
+              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
+              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
+              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
+              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
+              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
             </div>
           </div>
         </div>
