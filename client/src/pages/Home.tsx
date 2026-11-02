@@ -46,8 +46,6 @@ const Home = () => {
           <p>A fantastic place for book enthusiasts!</p>
         </div>
       </div>
-
-      {showRecommended}
       
       <div className="bookSuggestionPanels">
         {showRecommended && (
