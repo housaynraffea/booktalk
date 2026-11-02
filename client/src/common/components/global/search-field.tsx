@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import '@/common/styles/search-field.css';
 import { searchBooks, coverURL, type BookSearchResult } from '@/api/book';
+import { useSettings } from '@/common/context/SettingsContext';
 
 const SearchField = () => {
+    const { showCover, showProfilePicture } = useSettings();
     const [searchItem, setSearchItem] = useState('');
     const [books, setBooks] = useState<BookSearchResult[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -83,7 +85,9 @@ const SearchField = () => {
                     {error && <p className="searchResultMessage">{error}</p>}
                     {books.map((book) => (
                         <li className="searchResult" key={book.key}>
-                            <img className="searchResultCover" src={coverURL(book.cover, 'S')} loading="lazy"/>
+                            { showCover && (
+                                <img className="searchResultCover" src={coverURL(book.cover, 'S')} loading="lazy"/>
+                            )}
                             <div className="searchResultText">
                                 <span className="searchResultTitle">{book.title}</span>
                                 <span className="searchResultAuthors">{book.authors}</span>

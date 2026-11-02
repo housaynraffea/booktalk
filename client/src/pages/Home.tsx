@@ -2,8 +2,12 @@ import Navbar from '@/common/components/global/navbar';
 import '@/common/styles/index.css';
 import '@/common/styles/home.css';
 import Footer from '@/common/components/global/footer';
+import { useSettings } from '@/common/context/SettingsContext';
+import { useState } from 'react';
 
 const Home = () => {
+  const randomize = <T,>(array: T[]) => array[Math.floor(Math.random() * array.length)];
+  const { showRecommended, showPopular } = useSettings();
   const recommendedRandomQuotes = [
     "Tailored for you!", 
     "You should read these next!", 
@@ -17,7 +21,10 @@ const Home = () => {
     "Talk about these Books!",
     "Extry! Extry!"
   ];
-  
+
+  const [recommendedQuote] = useState(() => randomize(recommendedRandomQuotes));
+  const [popularQuote] = useState(() => randomize(popularRandomQuotes));
+
   const popularityTimeframe = [
     "This week", 
     "This month", 
@@ -26,27 +33,27 @@ const Home = () => {
 
   const bookWidth = "287px";
   
-  function randomize(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
   
   return (
     <div>
-        <Navbar/>
-        <div className="welcome">
-          <div className="welcomeFavicon">
-            <img src="/booktalk-icon.svg" width="200px"/>
-          </div>
-          <div className="welcomeText">
-            <h1>Welcome to BookTalk!</h1>
-            <p>A fantastic place for book enthusiasts!</p>
-          </div>
+      <Navbar/>
+      <div className="welcome">
+        <div className="welcomeFavicon">
+          <img src="/booktalk-icon.svg" width="200px"/>
         </div>
+        <div className="welcomeText">
+          <h1>Welcome to BookTalk!</h1>
+          <p>A fantastic place for book enthusiasts!</p>
+        </div>
+      </div>
 
-        <div className="bookSuggestionPanels">
+      {showRecommended}
+      
+      <div className="bookSuggestionPanels">
+        {showRecommended && (
           <div id="recommended-color" className="bookSuggestionPanel">
             <div className="bookSuggestionPanelHeader">
-              <div id="popular-color" className="recommendedRandomQuote"><p>{recommendedRandomQuotes[randomize(0, recommendedRandomQuotes.length - 1)]}</p></div>
+              <div id="popular-color" className="recommendedRandomQuote"><p>{recommendedQuote}</p></div>
               <h3>Recommended</h3>
             </div>
             <div className="bookSuggestionPanelBody">
@@ -57,10 +64,12 @@ const Home = () => {
               <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
             </div>
           </div>
+        )}
 
+        {showPopular && (
           <div id="popular-color" className="bookSuggestionPanel">
             <div className="bookSuggestionPanelHeader">
-              <div id="recommended-color" className="popularRandomQuote"><p>{popularRandomQuotes[randomize(0, recommendedRandomQuotes.length - 1)]}</p></div>
+              <div id="recommended-color" className="popularRandomQuote"><p>{popularQuote}</p></div>
               <h3>Popular</h3>
               <select className="popularityTimeFrameSelector">
                 <option>{popularityTimeframe[0]}</option>
@@ -76,9 +85,10 @@ const Home = () => {
               <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
             </div>
           </div>
-        </div>
-        <br/>
-        <Footer/>
+        )}
+      </div>
+      <br/>
+      <Footer/>
     </div>
   );
 };

@@ -62,11 +62,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: auto;
     background-color: rgba(44, 44, 44);
     border-radius: 15px;
     padding: 1rem;
-    width: auto;
     margin-top: 1rem;
     margin-bottom: 1rem;
 }

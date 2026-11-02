@@ -21,7 +21,7 @@
 }
 
 .searchResultMessage {
-  padding: 2rem;
+  padding: 0.5rem;
 }
 
 .searchResults {
@@ -76,5 +76,5 @@
 
 .searchResultAuthors {
   font-size: 0.85rem;
-  opacity: 0.8;
+  opacity: 0.9;
 }
