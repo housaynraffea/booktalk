@@ -36,8 +36,6 @@ async function verifyConnection(): Promise<void> {
 
 verifyConnection();
 
-//#region API
-
 app.get("/api", async(request, result) => {
     try {
         result.json({ status: "ok" });
@@ -47,63 +45,6 @@ app.get("/api", async(request, result) => {
         result.status(500).json({ error: "Database error!" });
     }
 });
-
-app.get("/api/test", async(request, result) => {
-    try {
-        const _result = await pool.query('SELECT * FROM "TEST"');
-        result.json(_result.rows);
-    }
-    catch (error) {
-        console.log("Error executing query:", error);
-        result.status(500).json({ error: "Database error!" });
-    }
-});
-
-app.get("/api/account", async(request, result) => {
-    try {
-        const _result = await pool.query('SELECT * FROM "ACCOUNT" LIMIT 1000');
-        result.json(_result.rows);
-    }
-    catch (error) {
-        console.log("Error executing query:", error);
-        result.status(500).json({ error: "Database error!" });
-    }
-});
-
-app.get("/api/book", async(request, result) => {
-    try {
-        const _result = await pool.query('SELECT * FROM "BOOK" LIMIT 1000');
-        result.json(_result.rows);
-    }
-    catch (error) {
-        console.log("Error executing query:", error);
-        result.status(500).json({ error: "Database error!" });
-    }
-});
-
-app.get("/api/comment", async(request, result) => {
-    try {
-        const _result = await pool.query('SELECT * FROM "COMMENT" LIMIT 1000');
-        result.json(_result.rows);
-    }
-    catch (error) {
-        console.log("Error executing query:", error);
-        result.status(500).json({ error: "Database error!" });
-    }
-});
-
-app.get("/api/review", async(request, result) => {
-    try {
-        const _result = await pool.query('SELECT * FROM "REVIEW" LIMIT 1000');
-        result.json(_result.rows);
-    }
-    catch (error) {
-        console.log("Error executing query:", error);
-        result.status(500).json({ error: "Database error!" });
-    }
-});
-
-//#endregion
 
 app.get("/books/search", async(request, response) => {
     const searchText = String(request.query.q ?? "");
@@ -134,7 +75,7 @@ app.get("/books/search", async(request, response) => {
     }
     catch (error) {
         console.log("Error executing query:", error);
-        response.status(500).json({ error: "Search failed" });
+        response.status(500).json({ error: "Book search failed" });
     }
 });
 
@@ -146,12 +87,154 @@ app.get("/books/:key", async(request, response) => {
             WHERE key = $1`,
             [request.params.key]
         );
+
+        if (result.rows.length === 0) {
+            response.status(404).json({ error: "Not found" });
+            return;
+        }
         
         response.json(result.rows[0]);
     }
     catch (error) {
         console.log("Error executing query:", error);
-        response.status(500).json({ error: "Search failed" });
+        response.status(500).json({ error: "Book search failed!" });
+    }
+});
+
+app.get("/books/:key/reviews", async(request, response) => {
+    try {
+        const result = await pool.query(
+            `SELECT r.review_id, r.stars, r.likes,
+                    r.description, r.created_at, a.account_id,
+                    a.username, a.display_name
+            FROM "REVIEW" r
+            JOIN "ACCOUNT" a ON a.account_id = r.account_id
+            WHERE r.book_key = $1
+            ORDER BY r.created_at DESC
+            LIMIT 50`,
+            [request.params.key]);
+        response.json(result.rows);
+    }
+    catch (error) {
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Could not load reviews!" });
+    }
+});
+
+app.get("/accounts/search", async(request, response) => {
+    const searchText = String(request.query.q ?? "").trim().replace(/^@/, "");
+    const searchLimit = Math.min(Number(request.query.limit) || 15, 20);
+    
+    if (searchText.length < 1) {
+        response.json({ accounts: [] });
+        return;
+    }
+
+    const escapedText = searchText.replace(/[\\%_]/g, "\\$&");
+
+    try {
+        const result = await pool.query(
+            `SELECT account_id, username, display_name
+            FROM "ACCOUNT"
+            WHERE username ILIKE $1 OR display_name ILIKE $1
+            ORDER BY username
+            LIMIT $2`,
+            [`${escapedText}%`, searchLimit]
+        );
+        
+        response.json({ accounts: result.rows });
+    }
+    catch (error) {
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Search failed!" });
+    }
+});
+
+app.get("/accounts/:account_id", async(request, response) => {
+    const accountId = Number(request.params.account_id);
+    
+    if (!Number.isInteger(accountId)) {
+        response.status(400).json({ error: "Invalid Account Id" });
+        return;
+    }
+
+    try {
+        const result = await pool.query(
+            `SELECT a.account_id, a.username, a.display_name, 
+                    a.bio, a.favourite_book_key, a.created_at,
+                    b.title AS favourite_book_title
+            FROM "ACCOUNT" a
+            LEFT JOIN "BOOK" b ON b.key = a.favourite_book_key
+            WHERE a.account_id = $1`,
+            [accountId]
+        );
+        
+        if (result.rows.length === 0) {
+            response.status(404).json({ error: "Not found" });
+            return;
+        }
+
+        response.json(result.rows[0]);
+    }
+    catch (error) {
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Could not load account!!" });
+    }
+});
+
+app.get("/accounts/:account_id/reviews", async(request, response) => {
+    
+    if (!Number.isInteger(request.params.account_id)) {
+        response.status(400).json({ error: "Invalid Account Id" });
+        return;
+    }
+    
+    try {
+        const result = await pool.query(
+            `SELECT r.review_id, r.book_key, r.stars, r.likes, 
+                    r.description, r.created_at, b.title,
+                    b.authors, b.cover
+            FROM "REVIEW" r
+            JOIN "BOOK" b ON b.key = r.book_key
+            WHERE r.account_id = $1
+            ORDER BY r.created_at DESC
+            LIMIT 50`, 
+            // one flaw here is that this could potentially 
+            // mess with accounts who have more than 50 
+            // reviews and can't see their oldest reviews
+            [request.params.account_id]);
+        response.json(result.rows);
+    }
+    catch (error) {
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Could not load reviews!" });
+    }
+});
+
+app.get("/comments/:review_id", async(request, response) => {
+    const reviewId = Number(request.params.review_id);
+
+    if (!Number.isInteger(reviewId)) {
+        response.status(400).json({ error: "Invalid Review Id" });
+        return;
+    }
+    
+    try {
+        const result = await pool.query(
+            `SELECT c.comment_id, c.comment, c.likes,
+                    c.dislikes, c.created_at, a.account_id,
+                    a.username, a.display_name
+            FROM "COMMENT" c
+            JOIN "ACCOUNT" a ON a.account_id = c.account_id
+            WHERE c.review_id = $1
+            ORDER BY c.created_at
+            LIMIT 100`,
+            [reviewId]);
+        response.json({ comment: result.rows });
+    }
+    catch (error) {
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Could not load comments!" });
     }
 });
 
