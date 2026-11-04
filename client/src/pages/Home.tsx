@@ -8,15 +8,23 @@ import { useState } from 'react';
 const Home = () => {
   const randomize = <T,>(array: T[]) => array[Math.floor(Math.random() * array.length)];
   const { showRecommended, showPopular } = useSettings();
+  
+  const welcomeRandomQuotes = [
+    "A fantastic place for book enthusiasts!", 
+    "A nice website to read something new!", 
+    "An awesome site for book reviews!",
+    "A perfect place for book lovers!"
+  ];
+  
   const recommendedRandomQuotes = [
     "Tailored for you!", 
     "You should read these next!", 
-    "Fresh out the bakery!",
+    "Fresh out the library!",
     "New books for you!"
   ];
   
   const popularRandomQuotes = [
-    "Popular!",
+    "These books are popular!",
     "Everybody is reading!",
     "Talk about these Books!",
     "Extry! Extry!"
@@ -24,6 +32,8 @@ const Home = () => {
 
   const [recommendedQuote] = useState(() => randomize(recommendedRandomQuotes));
   const [popularQuote] = useState(() => randomize(popularRandomQuotes));
+  const [welcomeQuote] = useState(() => randomize(welcomeRandomQuotes));
+
 
   const popularityTimeframe = [
     "This week", 
@@ -32,7 +42,6 @@ const Home = () => {
   ];
 
   const bookWidth = "287px";
-  
   
   return (
     <div>
@@ -43,7 +52,7 @@ const Home = () => {
         </div>
         <div className="welcomeText">
           <h1>Welcome to BookTalk!</h1>
-          <p>A fantastic place for book enthusiasts!</p>
+          <p>{welcomeQuote}</p>
         </div>
       </div>
       

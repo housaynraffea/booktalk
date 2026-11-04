@@ -9,7 +9,6 @@ import Review from '@/pages/Review';
 import Book from '@/pages/Book';
 import Settings from '@/pages/Settings';
 
-/* App routes. Routes are hash based (see src/main.tsx), so URLs look like /#/profile */
 export default function AppRoutes() {
   return (
     <Routes>
@@ -18,7 +17,7 @@ export default function AppRoutes() {
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/update-password" element={<UpdatePassword />} />
-      <Route path="/book" element={<Book />} />
+      <Route path="/book/:key" element={<Book />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/review" element={<Review />} />
       <Route path="/settings" element={<Settings />} />

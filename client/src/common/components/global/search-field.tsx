@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import '@/common/styles/search-field.css';
-import { searchBooks, coverURL, type BookSearchResult } from '@/api/book';
+import { searchBooks, coverURL, type Book } from '@/api/book';
 import { useSettings } from '@/common/context/SettingsContext';
+import { Link } from 'react-router-dom';
 
 const SearchField = () => {
     const { showCover, showProfilePicture } = useSettings();
     const [searchItem, setSearchItem] = useState('');
-    const [books, setBooks] = useState<BookSearchResult[]>([]);
+    const [books, setBooks] = useState<Book[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -81,17 +82,19 @@ const SearchField = () => {
             />
             {showDropdown && (
                 <ul className="searchResults">
-                    {isLoading && <p className="searchResultMessage">Searching...</p>}
-                    {error && <p className="searchResultMessage">{error}</p>}
+                    {isLoading && <li className="searchResultMessage">Searching...</li>}
+                    {error && <li className="searchResultMessage">{error}</li>}
                     {books.map((book) => (
                         <li className="searchResult" key={book.key}>
-                            { showCover && (
-                                <img className="searchResultCover" src={coverURL(book.cover, 'S')} loading="lazy"/>
-                            )}
-                            <div className="searchResultText">
-                                <span className="searchResultTitle">{book.title}</span>
-                                <span className="searchResultAuthors">{book.authors}</span>
-                            </div>
+                            <Link to={`/book/${book.key}`} onClick={() => setIsOpen(false)}>
+                                { showCover && (
+                                    <img className="searchResultCover" alt="" src={coverURL(book.cover, 'S')} loading="lazy"/>
+                                )}
+                                <div className="searchResultText">
+                                    <span className="searchResultTitle">{book.title}</span>
+                                    <span className="searchResultAuthors">{book.authors}</span>
+                                </div>
+                            </Link>
                         </li>
                     ))}
                 </ul>

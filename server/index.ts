@@ -32,7 +32,7 @@ async function verifyConnection(): Promise<void> {
     catch (error) {
         console.error("Error connecting to PostgreSQL Database:", error);
     }
-}
+};
 
 verifyConnection();
 
@@ -46,7 +46,7 @@ app.get("/api", async(request, result) => {
         console.log("Error executing query:", error);
         result.status(500).json({ error: "Database error!" });
     }
-})
+});
 
 app.get("/api/test", async(request, result) => {
     try {
@@ -57,18 +57,18 @@ app.get("/api/test", async(request, result) => {
         console.log("Error executing query:", error);
         result.status(500).json({ error: "Database error!" });
     }
-})
+});
 
 app.get("/api/account", async(request, result) => {
     try {
-        const _result = await pool.query('SELECT * FROM "ACCOUNT"');
+        const _result = await pool.query('SELECT * FROM "ACCOUNT" LIMIT 1000');
         result.json(_result.rows);
     }
     catch (error) {
         console.log("Error executing query:", error);
         result.status(500).json({ error: "Database error!" });
     }
-})
+});
 
 app.get("/api/book", async(request, result) => {
     try {
@@ -79,29 +79,29 @@ app.get("/api/book", async(request, result) => {
         console.log("Error executing query:", error);
         result.status(500).json({ error: "Database error!" });
     }
-})
+});
 
 app.get("/api/comment", async(request, result) => {
     try {
-        const _result = await pool.query('SELECT * FROM "COMMENT"');
+        const _result = await pool.query('SELECT * FROM "COMMENT" LIMIT 1000');
         result.json(_result.rows);
     }
     catch (error) {
         console.log("Error executing query:", error);
         result.status(500).json({ error: "Database error!" });
     }
-})
+});
 
 app.get("/api/review", async(request, result) => {
     try {
-        const _result = await pool.query('SELECT * FROM "REVIEW"');
+        const _result = await pool.query('SELECT * FROM "REVIEW" LIMIT 1000');
         result.json(_result.rows);
     }
     catch (error) {
         console.log("Error executing query:", error);
         result.status(500).json({ error: "Database error!" });
     }
-})
+});
 
 //#endregion
 
@@ -136,7 +136,24 @@ app.get("/books/search", async(request, response) => {
         console.log("Error executing query:", error);
         response.status(500).json({ error: "Search failed" });
     }
-})
+});
+
+app.get("/books/:key", async(request, response) => {
+    try {
+        const result = await pool.query(
+            `SELECT key, title, authors, cover, description
+            FROM "BOOK"
+            WHERE key = $1`,
+            [request.params.key]
+        );
+        
+        response.json(result.rows[0]);
+    }
+    catch (error) {
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Search failed" });
+    }
+});
 
 app.listen(3000, () => { console.log("API on http://localhost:3000") });
 
