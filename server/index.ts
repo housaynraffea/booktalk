@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import cors from "cors";
 import { Pool } from "pg";
 import path from "path";
@@ -147,6 +147,27 @@ app.get("/accounts/search", async(request, response) => {
     catch (error) {
         console.log("Error executing query:", error);
         response.status(500).json({ error: "Search failed!" });
+    }
+});
+
+app.get("/accounts/username-available", async (request, response) => {
+    const username = String(request.query.username ?? "").trim();
+
+    if (username.length < 3 || username.length > 32 || !/^[A-Za-z0-9_]+$/.test(username)){
+        response.status(400).json({ error: "Invalid username" });
+    }
+
+    try {
+        const result = await pool.query(
+            `SELECT 1 FROM "ACCOUNT" WHERE lower(username) = lower($1)`,
+            [username]
+        );
+
+        response.json({ available: result.rows.length === 0 });
+    }
+    catch (error) {
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Username check failed!" });
     }
 });
 
