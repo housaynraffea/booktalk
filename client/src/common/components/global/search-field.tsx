@@ -3,12 +3,14 @@ import '@/common/styles/search-field.css';
 import { searchBooks, coverURL, type Book } from '@/api/book';
 import { useSettings } from '@/common/context/SettingsContext';
 import { Link } from 'react-router-dom';
+import { searchAccounts, type AccountSearchResult } from '@/api/account';
 
 const SearchField = () => {
     // TODO: showProfilePicture
     const { showCover } = useSettings();
     const [searchItem, setSearchItem] = useState('');
     const [books, setBooks] = useState<Book[]>([]);
+    const [accountSearchResult, setAccountSearchResult] = useState<AccountSearchResult[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -37,10 +39,14 @@ const SearchField = () => {
     })
 
     useEffect(() => {
-        const searchTerm = searchItem.trim();
+        const trimmedInput = searchItem.trim();
+        const isAccountSearch = trimmedInput.startsWith('@');
+        const query = isAccountSearch ? trimmedInput.slice(1) : trimmedInput;
+        const minimumLength = isAccountSearch ? 1 : 3;
 
-        if (searchTerm.length < 3 || searchTerm.startsWith('@')) {
+        if (query.length < minimumLength) {
             setBooks([]);
+            setAccountSearchResult([]);
             setError(null);
             setIsLoading(false);
             return;
@@ -53,8 +59,16 @@ const SearchField = () => {
             setError(null);
 
             try {
-                const results = await searchBooks(searchTerm, abortController.signal);
-                setBooks(results);
+                if (isAccountSearch) {
+                    const results = await searchAccounts(query, abortController.signal);
+                    setAccountSearchResult(results);
+                    setBooks([]);
+                }
+                else {
+                    const results = await searchBooks(query, abortController.signal);
+                    setBooks(results);
+                    setAccountSearchResult([]);
+                }
             } catch (error) {
                 if (error instanceof DOMException && error.name === 'AbortError') return;
                 setError('Could not load search results');
@@ -69,6 +83,7 @@ const SearchField = () => {
         };
     }, [searchItem]);
 
+    //const hasResults = books.length > 0 || accountSearchResult.length > 0;
     const showDropdown = isOpen && (isLoading || error !== null || books.length > 0);
 
     return (
@@ -94,6 +109,20 @@ const SearchField = () => {
                                 <div className="searchResultText">
                                     <span className="searchResultTitle">{book.title}</span>
                                     <span className="searchResultAuthors">{book.authors}</span>
+                                </div>
+                            </Link>
+                        </li>
+                    ))}
+
+                    {accountSearchResult.map((account) => (
+                        <li className="searchResult" key={account.account_id}>
+                            <Link to={`/profile/${account.account_id}`} onClick={() => setIsOpen(false)}>
+                                { showCover && (
+                                    <img className="searchResultCover" alt="" src="/buttons/ProfileButton.svg" loading="lazy"/>
+                                )}
+                                <div className="searchResultText">
+                                    <span className="searchResultTitle">{account.display_name}</span>
+                                    <span className="searchResultAuthors">@{account.username}</span>
                                 </div>
                             </Link>
                         </li>
