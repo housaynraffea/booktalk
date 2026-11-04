@@ -2,8 +2,6 @@ import Navbar from '@/common/components/global/navbar';
 import { useSettings } from '@/common/context/SettingsContext';
 import '@/common/styles/index.css';
 import '@/common/styles/settings.css';
-import { useState } from 'react';
-import Cookies from 'universal-cookie';
 
 const Settings = () => {
 
@@ -11,7 +9,6 @@ const Settings = () => {
     theme, setTheme, 
     showRecommended, setShowRecommended, 
     showPopular, setShowPopular, 
-    searchLimit, setSearchLimit, 
     showCover, setShowCover, 
     showProfilePicture, setShowProfilePicture
   } = useSettings();
@@ -72,18 +69,6 @@ const Settings = () => {
             
             <h2>Search</h2>
             <div id="search" className="settingsSearch">
-              <div className="settingsItem">
-                <p>Search limit: </p>
-                <select
-                  value={searchLimit}
-                  onChange={e => setSearchLimit(Number(e.target.value))}>
-                  <option value={5}>5</option>
-                  <option value={10}>10</option>
-                  <option value={15}>15</option>
-                  <option value={20}>20</option>
-                </select>
-              </div>
-
               <div className="settingsItem">
                 <input 
                   type="checkbox"

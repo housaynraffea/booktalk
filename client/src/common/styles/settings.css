@@ -1,30 +1,35 @@
 .settingsSidebar {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-    width: 200px;
-    position: fixed;
-    background-color: #2d2d2d;
-    height: 100%;
-    overflow: auto;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  position: fixed;
+  background-color: var(--border);
+  color: var(--text);
+  height: 100%;
+  overflow: auto;
 }
 
 .settingsSidebar h2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text);
+}
+
+.settingsSidebar a {
+  color: var(--text);
 }
 
 .settingsSidebar a:hover:not(.active) {
-    background-color: #555;
-    color: white;
+  background-color: var(--accent1);
 }
 
 div.settingsContent {
-    margin-left: 200px;
-    padding: 1px 16px;
-    height: 100px;
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 100px;
 }
 
 /* On screens that are less than 700px wide, make the sidebar into a topbar */
@@ -47,7 +52,19 @@ div.settingsContent {
 }
 
 .settingsItem {
-    display: flex;
-    flex-direction: row;
-    gap: 0.25rem;
+  display: flex;
+  align-self: center;
+  flex-direction: row;
+  gap: 0.25rem;
+}
+
+select, option {
+  display: flex;
+  background-color: var(--border);
+  color: var(--text);
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 30px;
 }

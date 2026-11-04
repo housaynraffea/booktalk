@@ -8,8 +8,6 @@ interface Settings {
     setShowRecommended: (value: boolean) => void;
     showPopular: boolean;
     setShowPopular: (value: boolean) => void;
-    searchLimit: number;
-    setSearchLimit: (value: number) => void;
     showCover: boolean;
     setShowCover: (value: boolean) => void;
     showProfilePicture: boolean;
@@ -22,7 +20,6 @@ export function SettingsProvider({children}: { children: ReactNode }) {
     const [theme, setTheme] = useCookieSetting<string>('Theme', 'dark');
     const [showRecommended, setShowRecommended] = useCookieSetting<boolean>('ShowRecommended', true);
     const [showPopular, setShowPopular] = useCookieSetting<boolean>('ShowPopular', true);
-    const [searchLimit, setSearchLimit] = useCookieSetting<number>('SearchLimit', 5);
     const [showCover, setShowCover] = useCookieSetting<boolean>('ShowCover', true);
     const [showProfilePicture, setShowProfilePicture] = useCookieSetting<boolean>('ShowProfilePicture', true);
 
@@ -35,14 +32,12 @@ export function SettingsProvider({children}: { children: ReactNode }) {
             theme, setTheme,
             showRecommended, setShowRecommended,
             showPopular, setShowPopular,
-            searchLimit, setSearchLimit,
             showCover, setShowCover,
             showProfilePicture, setShowProfilePicture,
         }), [
             theme, setTheme,
             showRecommended, setShowRecommended,
             showPopular, setShowPopular,
-            searchLimit, setSearchLimit,
             showCover, setShowCover,
             showProfilePicture, setShowProfilePicture,
         ]

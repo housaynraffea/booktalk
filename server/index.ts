@@ -107,7 +107,7 @@ app.get("/api/review", async(request, result) => {
 
 app.get("/books/search", async(request, response) => {
     const searchText = String(request.query.q ?? "");
-    const searchLimit = Math.min(Number(request.query.limit) || 20, 50);
+    const searchLimit = Math.min(Number(request.query.limit) || 15, 20);
     const words = searchText
     .toLowerCase()
     .split(/[^\p{L}\p{N}]+/u)

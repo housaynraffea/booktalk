@@ -15,12 +15,16 @@
   border-radius: 200px;
   font-size: 0.9rem;
   border: none;
-  background-color: #181818;
-  color: white;
+  background-color: var(--bg);
+  color: var(--text);
   z-index: 1;
 }
 
 .searchResultMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   padding: 0.5rem;
 }
 
@@ -37,7 +41,7 @@
 
   max-height: calc(5*64px);
   overflow-y: auto;
-  background-color: #181818;
+  background-color: var(--bg);
 }
 
 .searchResult {
@@ -51,7 +55,7 @@
 }
 
 .searchResult:hover {
-  background-color: #2a2a2a;
+  background-color: var(--border);
 }
 
 .searchResultCover {
@@ -71,7 +75,7 @@
 }
 
 .searchResultTitle {
-  color: white;
+  color: var(--text);
 }
 
 .searchResultAuthors {

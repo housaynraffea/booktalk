@@ -91,10 +91,9 @@
 }
 
 #recommended-color {
-    background-color: purple;
+    background-color: var(--accent1);
 }
 
-
 #popular-color {
-    background-color: blueviolet;
+    background-color: var(--accent2);
 }
