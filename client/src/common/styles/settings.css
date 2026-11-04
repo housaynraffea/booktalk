@@ -57,14 +57,3 @@ div.settingsContent {
   flex-direction: row;
   gap: 0.25rem;
 }
-
-select, option {
-  display: flex;
-  background-color: var(--border);
-  color: var(--text);
-  justify-content: center;
-  align-items: center;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 30px;
-}

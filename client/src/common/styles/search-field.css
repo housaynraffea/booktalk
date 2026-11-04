@@ -81,6 +81,7 @@
 .searchResultAuthors {
   font-size: 0.85rem;
   opacity: 0.9;
+  color: var(--text-h);
 }
 
 a {
