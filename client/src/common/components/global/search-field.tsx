@@ -83,7 +83,6 @@ const SearchField = () => {
         };
     }, [searchItem]);
 
-    //const hasResults = books.length > 0 || accountSearchResult.length > 0;
     const showDropdown = isOpen && (isLoading || error !== null || books.length > 0);
 
     return (
