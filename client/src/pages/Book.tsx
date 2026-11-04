@@ -2,7 +2,7 @@ import Navbar from '@/common/components/global/navbar';
 import '@/common/styles/index.css';
 import '@/common/styles/book.css';
 import Footer from '@/common/components/global/footer';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getBook, coverURL, type Book as BookData } from '@/api/book';
 import { useState, useEffect } from 'react';
 

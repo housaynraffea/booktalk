@@ -5,7 +5,8 @@ import { useSettings } from '@/common/context/SettingsContext';
 import { Link } from 'react-router-dom';
 
 const SearchField = () => {
-    const { showCover, showProfilePicture } = useSettings();
+    // TODO: showProfilePicture
+    const { showCover } = useSettings();
     const [searchItem, setSearchItem] = useState('');
     const [books, setBooks] = useState<Book[]>([]);
     const [isLoading, setIsLoading] = useState(false);
