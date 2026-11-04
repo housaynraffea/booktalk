@@ -6,8 +6,7 @@ import { Link } from 'react-router-dom';
 import { searchAccounts, type AccountSearchResult } from '@/api/account';
 
 const SearchField = () => {
-    // TODO: showProfilePicture
-    const { showCover } = useSettings();
+    const { showCover, showProfilePicture } = useSettings();
     const [searchItem, setSearchItem] = useState('');
     const [books, setBooks] = useState<Book[]>([]);
     const [accountSearchResult, setAccountSearchResult] = useState<AccountSearchResult[]>([]);
@@ -116,7 +115,7 @@ const SearchField = () => {
                     {accountSearchResult.map((account) => (
                         <li className="searchResult" key={account.account_id}>
                             <Link to={`/profile/${account.account_id}`} onClick={() => setIsOpen(false)}>
-                                { showCover && (
+                                { showProfilePicture && (
                                     <img className="searchResultCover" alt="" src="/buttons/ProfileButton.svg" loading="lazy"/>
                                 )}
                                 <div className="searchResultText">
