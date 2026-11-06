@@ -18,7 +18,7 @@ export default function AppRoutes() {
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/update-password" element={<UpdatePassword />} />
       <Route path="/book/:key" element={<Book />} />
-      <Route path="/profile" element={<Profile />} />
+      <Route path="/profile/:username" element={<Profile />} />
       <Route path="/review" element={<Review />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="*" element={<Home />} />

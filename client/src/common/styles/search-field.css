@@ -44,7 +44,8 @@
   background-color: var(--bg);
 }
 
-.searchResult {
+/* ACCOUNT */
+.accountSearchResult {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -53,18 +54,18 @@
   box-sizing: border-box;
 }
 
-.searchResult:hover {
+.accountSearchResult:hover {
   background-color: var(--border);
 }
 
-.searchResultCover {
-  width: 36px;
+.accountSearchResultProfilePicture {
+  width: 48px;
   height: 48px;
   object-fit: cover;
   flex-shrink: 0;
 }
 
-.searchResultText {
+.accountSearchResultText {
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -73,12 +74,53 @@
   min-width: 0;
 }
 
-.searchResultTitle {
+.accountSearchResultDisplayName {
   font-size: 1rem;
   color: var(--text);
 }
 
-.searchResultAuthors {
+.accountSearchResultUsername {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  color: var(--text-h);
+}
+
+/* BOOK */
+.bookSearchResult {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 64px;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+.bookSearchResult:hover {
+  background-color: var(--border);
+}
+
+.bookSearchResultCover {
+  width: 36px;
+  height: 48px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.bookSearchResultText {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.bookSearchResultTitle {
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.bookSearchResultAuthors {
   font-size: 0.85rem;
   opacity: 0.9;
   color: var(--text-h);

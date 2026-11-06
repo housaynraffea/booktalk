@@ -82,7 +82,8 @@ const SearchField = () => {
         };
     }, [searchItem]);
 
-    const showDropdown = isOpen && (isLoading || error !== null || books.length > 0);
+    const hasResults = books.length > 0 || accountSearchResult.length > 0;
+    const showDropdown = isOpen && (isLoading || error !== null || hasResults);
 
     return (
         <div className="searchField" ref={containerRef}>
@@ -99,28 +100,28 @@ const SearchField = () => {
                     {isLoading && <li className="searchResultMessage">Searching...</li>}
                     {error && <li className="searchResultMessage">{error}</li>}
                     {books.map((book) => (
-                        <li className="searchResult" key={book.key}>
+                        <li className="bookSearchResult" key={book.key}>
                             <Link to={`/book/${book.key}`} onClick={() => setIsOpen(false)}>
                                 { showCover && (
-                                    <img className="searchResultCover" alt="" src={coverURL(book.cover, 'S')} loading="lazy"/>
+                                    <img className="bookSearchResultCover" alt="" src={coverURL(book.cover, 'S')} loading="lazy"/>
                                 )}
-                                <div className="searchResultText">
-                                    <span className="searchResultTitle">{book.title}</span>
-                                    <span className="searchResultAuthors">{book.authors}</span>
+                                <div className="bookSearchResultText">
+                                    <span className="bookSearchResultTitle">{book.title}</span>
+                                    <span className="bookSearchResultAuthors">{book.authors}</span>
                                 </div>
                             </Link>
                         </li>
                     ))}
 
                     {accountSearchResult.map((account) => (
-                        <li className="searchResult" key={account.account_id}>
-                            <Link to={`/profile/${account.account_id}`} onClick={() => setIsOpen(false)}>
+                        <li className="accountSearchResult" key={account.account_id}>
+                            <Link to={`/profile/${account.username}`} onClick={() => setIsOpen(false)}>
                                 { showProfilePicture && (
-                                    <img className="searchResultCover" alt="" src="/buttons/ProfileButton.svg" loading="lazy"/>
+                                    <img className="accountSearchResultProfilePicture" alt="" src="/buttons/ProfileButton.svg" loading="lazy"/>
                                 )}
-                                <div className="searchResultText">
-                                    <span className="searchResultTitle">{account.display_name}</span>
-                                    <span className="searchResultAuthors">@{account.username}</span>
+                                <div className="accountSearchResultText">
+                                    <span className="accountSearchResultDisplayName">{account.display_name}</span>
+                                    <span className="accountSearchResultUsername">@{account.username}</span>
                                 </div>
                             </Link>
                         </li>

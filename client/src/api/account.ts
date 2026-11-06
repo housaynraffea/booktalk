@@ -5,6 +5,7 @@ export type Account = {
     bio: string | null;
     favourite_book_key: string | null;
     favourite_book_title: string | null;
+    favourite_book_cover: number | null;
     created_at: string;
 }
 
@@ -58,6 +59,14 @@ export async function getAccount(account_id: number, signal?: AbortSignal): Prom
     if (!response.ok) throw new Error("Could not find account!");
     return await response.json();
 };
+
+export async function getAccountByUsername(username: string, signal?: AbortSignal): Promise<Account | null> {
+    const response = await fetch(`${API_URL}/accounts/by-username/${encodeURIComponent(username)}`, { signal });
+
+    if (response.status === 404) return null;
+    if (!response.ok) throw new Error("Could not find account!");
+    return await response.json();
+}
 
 export async function isUsernameTaken(username: string, signal?: AbortSignal): Promise<boolean> {
     const response = await fetch(

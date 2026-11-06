@@ -3,6 +3,7 @@ import cors from "cors";
 import { Pool } from "pg";
 import path from "path";
 import dotenv from "dotenv";
+import { error } from "console";
 
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
@@ -183,7 +184,8 @@ app.get("/accounts/:account_id", async(request, response) => {
         const result = await pool.query(
             `SELECT a.account_id, a.username, a.display_name, 
                     a.bio, a.favourite_book_key, a.created_at,
-                    b.title AS favourite_book_title
+                    b.title AS favourite_book_title,
+                    b.cover AS favourite_book_cover
             FROM "ACCOUNT" a
             LEFT JOIN "BOOK" b ON b.key = a.favourite_book_key
             WHERE a.account_id = $1`,
@@ -204,8 +206,9 @@ app.get("/accounts/:account_id", async(request, response) => {
 });
 
 app.get("/accounts/:account_id/reviews", async(request, response) => {
-    
-    if (!Number.isInteger(request.params.account_id)) {
+    const account_id = Number(request.params.account_id);
+
+    if (!Number.isInteger(account_id)) {
         response.status(400).json({ error: "Invalid Account Id" });
         return;
     }
@@ -224,11 +227,41 @@ app.get("/accounts/:account_id/reviews", async(request, response) => {
             // mess with accounts who have more than 50 
             // reviews and can't see their oldest reviews
             [request.params.account_id]);
-        response.json(result.rows);
+        response.json({ reviews: result.rows});
     }
     catch (error) {
         console.log("Error executing query:", error);
         response.status(500).json({ error: "Could not load reviews!" });
+    }
+});
+
+app.get("/accounts/by-username/:username", async (request, response) => {
+    const username = request.params.username;
+
+    if (!/^[A-Za-z0-9_]+$/.test(username)) {
+        response.status(404).json({ error: "Account not found!" });
+    }
+
+    try {
+        const result = await pool.query(`
+            SELECT a.account_id, a.username, a.display_name,
+                   a.bio, a.favourite_book_key, a.created_at,
+                   b.title AS favourite_book_title,
+                   b.cover AS favourite_book_cover
+            FROM "ACCOUNT" a
+            LEFT JOIN "BOOK" b ON b.key = a.favourite_book_key
+            WHERE lower(a.username) = lower($1)`,
+            [username]);
+        
+        if (result.rows.length === 0) {
+            response.status(404).json({ error: "Account not found!" });
+        }
+
+        response.json(result.rows[0]);
+    } 
+    catch (error) {
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Invalid account username" });
     }
 });
 
