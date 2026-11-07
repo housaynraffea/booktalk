@@ -28,12 +28,27 @@ const Settings = () => {
             <h1>Settings</h1>
 
             <h2>Account</h2>
+            <p>(This is how your profile will (almost) look for others)</p>
+            
             <div id="account" className="settingsAccount">
-              <p>Change/Edit profile picture</p>
-              <p>Edit display name</p>
-              <p>Edit username</p>
-              <p>Edit bio</p>
-              <p>Change favourite book</p>
+              <div className="profilePanel">
+                <div className="profilePicture">
+                  <img src="/buttons/ProfileButton.svg" width="250px" height="250px"/>
+                </div>
+                <div className="profileInfo">
+                  <h1>display_name</h1>
+                  <h2>username</h2>
+                  <p>bio</p>
+                </div>
+                <div className="profileFavouriteBook">
+                  <div className="profileFavouriteBookHeader">
+                    <h4>Favourite book:</h4>
+                  </div>
+                  <div className="profileFavouriteBookContainer">
+                    favourite_book_key
+                  </div>
+                </div>
+              </div>
               <p>Change email</p>
               <p>Change password</p>
             </div>

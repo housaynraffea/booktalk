@@ -4,8 +4,15 @@ import { Pool } from "pg";
 import path from "path";
 import dotenv from "dotenv";
 import { error } from "console";
+import session from "express-session";
+import connectPgSimple from "connect-pg-simple";
+import { createAuthRouter } from "./auth";
 
 dotenv.config({ path: path.resolve(__dirname, ".env") });
+
+if (!process.env.SESSION_SECRET) {
+    throw new Error("SESSION_SECRET missing from .env file!");
+}
 
 const pool = new Pool({
     host: process.env.DB_HOST,
@@ -17,8 +24,10 @@ const pool = new Pool({
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
+
+const pg_session = connectPgSimple(session);
 
 async function verifyConnection(): Promise<void> {
     try {
@@ -36,6 +45,21 @@ async function verifyConnection(): Promise<void> {
 };
 
 verifyConnection();
+
+app.use(session({
+    store: new pg_session({ pool, createTableIfMissing: true }),
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: false,
+        maxAge: 7*24*60*60*1000,
+    },
+}));
+
+app.use("/auth", createAuthRouter(pool));
 
 app.get("/api", async(request, result) => {
     try {
