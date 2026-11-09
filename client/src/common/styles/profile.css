@@ -33,6 +33,11 @@
     color: white;
 }
 
+.profileInfoBio {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
 .profileFavouriteBook {
     display: flex;
     flex-direction: column;

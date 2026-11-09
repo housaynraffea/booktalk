@@ -4,10 +4,14 @@ import '@/common/styles/home.css';
 import Footer from '@/common/components/global/footer';
 import { useSettings } from '@/common/context/SettingsContext';
 import { useState } from 'react';
+import { useAuth } from '@/common/context/AuthContext';
 
 const Home = () => {
   const randomize = <T,>(array: T[]) => array[Math.floor(Math.random() * array.length)];
   const { showRecommended, showPopular } = useSettings();
+  const { user, isLoading: isAuthLoading } = useAuth();
+
+  const isLoggedIn = !isAuthLoading && user !== null;
   
   const welcomeRandomQuotes = [
     "A fantastic place for book enthusiasts!", 
@@ -57,7 +61,7 @@ const Home = () => {
       </div>
       
       <div className="bookSuggestionPanels">
-        {showRecommended && (
+        {isLoggedIn && showRecommended && (
           <div id="recommended-color" className="bookSuggestionPanel">
             <div className="bookSuggestionPanelHeader">
               <div id="popular-color" className="recommendedRandomQuote"><p>{recommendedQuote}</p></div>

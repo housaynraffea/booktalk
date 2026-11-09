@@ -9,6 +9,13 @@ export type Account = {
     created_at: string;
 }
 
+export type AccountUpdate = {
+    display_name: string;
+    username: string;
+    bio: string;
+    favourite_book_key: string | null;
+}
+
 export type AccountSearchResult = Pick<Account, 'account_id' | 'username' | 'display_name' >;
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -19,6 +26,8 @@ export const DISPLAY_NAME_MAX = 64
 export const USERNAME_MIN = 3
 export const USERNAME_MAX = 32
 export const USERNAME_PATTERN = /^[A-Za-z0-9_]+$/
+
+export const BIO_MAX = 500;
 
 export function validateDisplayName(display_name: string): string | null {
     const value = display_name.trim()
@@ -76,4 +85,16 @@ export async function isUsernameTaken(username: string, signal?: AbortSignal): P
     if (!response.ok) throw new Error("Username check failed!");
     const data = await response.json();
     return !data.available;
+}
+
+export async function updateAccount(update: AccountUpdate): Promise<void> {
+    const response = await fetch(`${API_URL}/accounts/me`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(update)
+    });
+
+    const data = await response.json().catch(() => null);
+    if (!response.ok) throw new Error(data?.error ?? "Could not save your changes!");
 }

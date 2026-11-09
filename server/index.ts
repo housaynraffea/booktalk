@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import { error } from "console";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
-import { createAuthRouter } from "./auth";
+import { createAuthRouter, requireLogin } from "./auth";
 
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
@@ -313,6 +313,57 @@ app.get("/comments/:review_id", async(request, response) => {
     catch (error) {
         console.log("Error executing query:", error);
         response.status(500).json({ error: "Could not load comments!" });
+    }
+});
+
+app.patch("/accounts/me", requireLogin, async (request, response) => {
+    const account_id = request.session.account_id as number;
+    const display_name = String(request.body?.display_name ?? "").trim();
+    const username = String(request.body?.username ?? "").trim();
+    const bio = String(request.body?.bio ?? "")
+        .replace(/\r\n/g, "\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+    const favourite_book_key = request.body?.favourite_book_key ? String(request.body.favourite_book_key).trim() : null;
+
+    if (display_name.length < 3 || display_name.length > 64) {
+        response.status(400).json({ error: "Display name must be between 3-64 characters!" });
+        return;
+    }
+
+    if (!/^[A-Za-z0-9_]{3,32}$/.test(username)) {
+        response.status(400).json({ error: "Username can only contain letters, numbers and underscores, and must only be between 3-32 characters!" });
+        return;
+    }
+
+    if (bio.length > 500) {
+        response.status(400).json({ error: "Bio must be under 500 characters!" });
+        return;
+    }
+
+    try {
+        const result = await pool.query(`
+            UPDATE "ACCOUNT"
+            SET display_name = $1, username = $2, bio = $3, favourite_book_key = $4
+            WHERE account_id = $5
+            RETURNING account_id, username, display_name, bio, favourite_book_key`, 
+            [display_name, username, bio === "" ? null : bio, favourite_book_key, account_id]
+        );
+
+        response.json(result.rows[0]);
+    }
+    catch (error) {
+        const db_error = error as { code?: string };
+        if (db_error.code === "23505") {
+            response.status(409).json({ error: "Username is taken!" });
+        }
+
+        if (db_error.code === "23503") {
+            response.status(409).json({ error: "Book does not exist!" });
+        }
+
+        console.log("Account update error! Error:", error);
+        response.status(500).json({ error: "Could not save your changes" });
     }
 });
 

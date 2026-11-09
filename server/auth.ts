@@ -34,7 +34,7 @@ function startSession(request: Request, account_id: number): Promise<void> {
     });
 }
 
-function requireLogin(request: Request, response: Response, next: NextFunction) {
+export function requireLogin(request: Request, response: Response, next: NextFunction) {
     if (!request.session.account_id) {
         response.status(401).json({ error: "You need to log in!" });
         return;
@@ -151,7 +151,7 @@ export function createAuthRouter(pool: Pool): Router {
 
         try {
             const result = await pool.query(`
-                SELECT account_id, username, display_name, FROM "ACCOUNT" WHERE account_id = $1`,
+                SELECT account_id, username, display_name FROM "ACCOUNT" WHERE account_id = $1`,
                 [account_id]
             );
 

@@ -78,7 +78,7 @@ const Profile = () => {
             <div className="profileInfo">
               <h1>{account.display_name}</h1>
               <h2>@{account.username}</h2>
-              <p>{account.bio || 'No bio yet'}</p>
+              <p className="profileInfoBio">{account.bio || 'No bio yet'}</p>
             </div>
             <div className="profileFavouriteBook">
               <div className="profileFavouriteBookHeader">

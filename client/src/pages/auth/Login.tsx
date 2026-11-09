@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "@/common/context/useAuth";
+import { useAuth } from "@/common/context/AuthContext";
 import { PASSWORD_MIN } from "@/api/auth";
 import { USERNAME_MIN, USERNAME_MAX, USERNAME_PATTERN, validateUsername, validateDisplayName } from "@/api/account";
 import "@/common/styles/login.css"
