@@ -59,7 +59,7 @@ export function createAuthRouter(pool: Pool): Router {
         }
 
         if (!USERNAME_PATTERN.test(username)) {
-            response.status(400).json({ error: "Username can only contain letters, numbers and underscores, and must only be between 3-32 characters!" });
+            response.status(400).json({ error: "Username can only contain letters, numbers and underscores, and must be between 3-32 characters!" });
             return;
         }
 
