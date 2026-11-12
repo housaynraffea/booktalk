@@ -89,6 +89,7 @@ export function createAuthRouter(pool: Pool): Router {
             const database_error = error as { code?: string, constraint?: string };
             if (database_error.code === "23505") {
                 response.status(409).json({ error: "Could not create account!" });
+                return;
             }
 
             console.log("Register Error! Error:", error);
