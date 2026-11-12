@@ -1,5 +1,6 @@
 .settingsSidebar {
   display: flex;
+  align-items: center;
   flex-direction: column;
   margin: 0;
   padding: 0;
@@ -20,6 +21,9 @@
 
 .settingsSidebar a {
   color: var(--text);
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .settingsSidebar a:hover:not(.active) {

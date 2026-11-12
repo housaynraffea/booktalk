@@ -67,7 +67,7 @@ const Login = () => {
     return (
       <div className="auth">
         <main className="auth-card">
-          <h1>Signed in!</h1>
+          <h1 className="auth-title">Signed in!</h1>
           <p>You are now signed in as <strong>{user.display_name}</strong> (@{user.username})!</p>
           <div className="auth-actions">
             <Link className="auth-submit" to={`/profile/${user.username}`}>Go to profile</Link>

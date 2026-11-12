@@ -28,6 +28,12 @@
     letter-spacing: -0.02em;
 }
 
+.auth-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .auth-subtitle {
     margin: 0 0 1.25rem;
     color: var(--muted);
@@ -110,6 +116,8 @@ a.auth-submit {
 }
 
 .auth-actions {
+    display: flex;
+    flex-direction: row;
     display: grid;
     gap: 1rem;
 }
@@ -133,7 +141,6 @@ a.auth-submit {
     font-size: 0.9rem;
     cursor: pointer;
     text-decoration: underline;
-    justify-self: start;
 }
 
 .auth-message {

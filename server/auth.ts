@@ -1,8 +1,8 @@
-import { response, Router, type NextFunction, type Request, type Response} from "express";
+import { Router, type NextFunction, type Request, type Response} from "express";
 import type { Pool } from "pg";
+import "express-session";
 import bcrypt from "bcryptjs";
 import rateLimit from "express-rate-limit";
-import { request } from "node:http";
 
 declare module "express-session" {
     interface SessionData {
@@ -13,6 +13,7 @@ declare module "express-session" {
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const USERNAME_PATTERN = /^[A-Za-z0-9_]{3,32}$/;
 const PASSWORD_MIN = 12;
+const PASSWORD_MAX = 128;
 
 const TEST_HASH = bcrypt.hashSync("test-hash", 12);
 
@@ -21,7 +22,7 @@ const rateLimiter = rateLimit({
     limit: 30,
     standardHeaders: true,
     legacyHeaders: false,
-    message: { error: "Too many attemps! Please try again in a few minutes." }
+    message: { error: "Too many attempts! Please try again in a few minutes." }
 });
 
 function startSession(request: Request, account_id: number): Promise<void> {
@@ -67,8 +68,8 @@ export function createAuthRouter(pool: Pool): Router {
             return;
         }
 
-        if (password.length < PASSWORD_MIN) {
-            response.status(400).json({ error: "Password must be greater than 3 characters! (Don't make this too simple to guess!)" });
+        if (password.length < PASSWORD_MIN || password.length > PASSWORD_MAX) {
+            response.status(400).json({ error: `Password must be between ${PASSWORD_MIN}-${PASSWORD_MAX} characters! (Don't make this too simple to guess!)` });
             return;
         }
 
@@ -87,15 +88,17 @@ export function createAuthRouter(pool: Pool): Router {
         catch (error) {
             const database_error = error as { code?: string, constraint?: string };
             if (database_error.code === "23505") {
-                const message = database_error.constraint?.includes(email) ? "Email already registered!" : "Username is taken!";
                 response.status(409).json({ error: "Could not create account!" });
             }
+
+            console.log("Register Error! Error:", error);
+            response.status(500).json({ error: "Could not create account!" });
         }
     });
 
     router.post("/login", rateLimiter, async (request, response) => {
         const email = String(request.body?.email ?? "").trim().toLowerCase();
-        const password = String(request.body?.password);
+        const password = String(request.body?.password ?? "");
 
         try {
             const result = await pool.query(
