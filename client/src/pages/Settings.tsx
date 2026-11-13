@@ -6,7 +6,6 @@ import { useSettings } from '@/common/context/SettingsContext';
 import '@/common/styles/index.css';
 import '@/common/styles/settings.css';
 import { useEffect, useState, type FormEvent } from 'react';
-import Book from './Book';
 import FavouriteBookPicker from '@/common/components/settings/favourite-book-picker';
 
 type AccountForm = {
@@ -155,7 +154,7 @@ const Settings = () => {
             {isLoggedIn && (
               <>
                 <h2>Account</h2>
-                <p>(This is how your profile will (almost) look for others)</p>
+                <p>This is how your profile will (almost) look for others</p>
                 
                 <div id="account" className="settingsAccount">
                   {isAuthLoading || (user && !form) ? (
@@ -193,6 +192,7 @@ const Settings = () => {
                             <textarea
                               rows={8}
                               className="settingsField"
+                              placeholder='Write something about yourself! Or anything, really!'
                               value={form.bio}
                               maxLength={BIO_MAX}
                               onChange={(e) => updateField('bio', e.target.value)}

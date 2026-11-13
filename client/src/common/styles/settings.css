@@ -106,6 +106,15 @@ textarea {
   background: var(--accent2);
 }
 
+h2 {
+  color: var(--text);
+}
+
+.settingsField {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
 .profileInfoBio input {
   display: flex;
   border: none;

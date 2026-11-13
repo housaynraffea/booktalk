@@ -3,6 +3,14 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
   
+  --error-bg: red;
+  --error: white;
+
+  --success-bg: green;
+  --success: white;
+
+  --accent-text: #fff;
+
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
@@ -39,7 +47,6 @@
   --accent4: #F0F0F0;
   --accent4-bg: rgba(240, 240, 240, 0.1);
   --accent4-border: rgba(240, 240, 240, 0.5);
-  
 
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;

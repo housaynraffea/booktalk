@@ -13,7 +13,7 @@
     width: 90%;
     gap: 1rem;
     padding: 0.5rem;
-    background-color: purple;
+    background-color: var(--accent1);
     border-radius: 15px;
 }
 
@@ -30,12 +30,17 @@
     justify-content: flex-start;
     align-items: flex-start;
     margin-bottom: auto;
-    color: white;
+    color: var(--accent-text);
+}
+
+.profileInfo h1, h2 {
+    color: var(--accent-text);
 }
 
 .profileInfoBio {
     white-space: pre-wrap;
     overflow-wrap: anywhere;
+    color: var(--accent-text);
 }
 
 .profileFavouriteBook {
@@ -52,7 +57,7 @@
 
 .profileFavouriteBookHeader {
     display: flex;
-    color: white;
+    color: var(--accent-text);
     font-size: 24px;
     margin-top: -1.5rem;
     margin-bottom: -0.5rem;
@@ -68,7 +73,7 @@
     justify-content: center;
     align-items: center;
     width: auto;
-    background-color: rgba(44, 44, 44);
+    background-color: var(--accent2);
     border-radius: 15px;
     padding: 1rem;
     margin-top: 1rem;
@@ -79,7 +84,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: var(--accent-text);
     font-size: 24px;
     margin-top: -1rem;
 }
@@ -88,6 +93,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    color: var(--accent-text);
 }
 
 .profileReviewCard {

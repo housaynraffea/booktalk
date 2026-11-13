@@ -1,19 +1,23 @@
 .bookPicker {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 0.25rem;
+    width: 100%;
 }
 
-.settingsField {
+.inputField {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     border-radius: 5px;
     padding: 0.25rem;
-    width: 12.5rem;
+    width: 14rem;
+    height: 1.5rem;
+    margin-bottom: -0.5rem;
     gap: 1rem;
     flex-wrap: wrap;
     font-size: 0.9rem;
@@ -24,9 +28,11 @@
 
 .bookPickerResults {
     position: absolute;
-    top: 65%;
+    top: 100%;
+    left: 0;
+    right: 0;
     z-index: 3;
-    margin: 3.5px 0 0;
+    margin: 4px 0 0;
     padding: 0;
     list-style: none;
     max-height: calc(5*64px);
@@ -43,6 +49,9 @@
     box-sizing: border-box;
     border: none;
     background-color: var(--bg);
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
     width: 100%;
 }
 
@@ -135,5 +144,23 @@ a {
     white-space: nowrap;
     text-overflow: ellipsis;
     box-sizing: border-box;
+    cursor: pointer;
+}
+
+.bookPickerCurrent {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.bookPickerCurrent button {
+    border: none;
+    background-color: red;
+    border-radius: 5px;
+    font-size: 18px;
+    padding: 0.5rem;
     cursor: pointer;
 }

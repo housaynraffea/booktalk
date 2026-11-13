@@ -69,17 +69,15 @@ const FavouriteBookPicker = ({ value, onChange }: FavouriteBookPickerProps) => {
             {value ? (
                 <div className="bookPickerCurrent">
                     <img src={coverURL(value.cover, 'M')} alt="" width="200px"/>
-                    
-                    
+                    <button type="button" onClick={() => onChange(null)}>Remove</button>
                 </div>
             ) : (
                 <p>No favourite book selected</p>
             )}
             
-            <button type="button" onClick={() => onChange(null)}>Remove</button>
             
             <input
-                className="settingsField"
+                className="inputField"
                 type="text"
                 value={searchText}
                 placeholder="Search for your favourite book..."

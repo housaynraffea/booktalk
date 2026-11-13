@@ -81,13 +81,13 @@ const Login = () => {
   return (
     <div className="auth">
       <main className="auth-card">
+        <h1>{mode === 'signin' ? 'Sign in' : 'Create an Account'}</h1>
+        
         <div className="auth-tabs" role="tablist" aria-label="Authentication Options">
           <button type="button" role="tab" aria-selected={mode === 'signin'} onClick={() => switchMode('signin')} disabled={isSubmitting}>Sign In</button>
           <button type="button" role="tab" aria-selected={mode === 'signup'} onClick={() => switchMode('signup')} disabled={isSubmitting}>Sign Up</button>
         </div>
 
-        <h1>{mode === 'signin' ? 'Sign in' : 'Create an Account'}</h1>
-        
         <form className="auth-form" onSubmit={handleSubmit}>
           <label className="auth-field">Email<input type="email" name="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)}/> </label>
 

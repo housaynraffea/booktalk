@@ -91,9 +91,9 @@
 }
 
 #recommended-color {
-    background-color: var(--accent1);
+    background-color: var(--accent2);
 }
 
 #popular-color {
-    background-color: var(--accent2);
+    background-color: var(--accent3);
 }
