@@ -1,0 +1,33 @@
+.navbar {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  height: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--accent1);
+}
+
+.navbarLeft{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: auto;
+  margin-left: -0.5rem;
+}
+
+.navbarMiddle{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbarRight{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: -0.75rem;
+}

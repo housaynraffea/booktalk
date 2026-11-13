@@ -1,0 +1,122 @@
+.settingsSidebar {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  position: fixed;
+  background-color: var(--border);
+  color: var(--text);
+  height: 100%;
+  overflow: auto;
+}
+
+.settingsSidebar h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text);
+}
+
+.settingsSidebar a {
+  color: var(--text);
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.settingsSidebar a:hover:not(.active) {
+  background-color: var(--accent1);
+}
+
+div.settingsContent {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 100px;
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+  .settingsSidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .settingsSidebar a {float: left;}
+  div.settingsContent {margin-left: 0;}
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+  .settingsSidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+
+.settingsItem {
+  display: flex;
+  align-self: center;
+  flex-direction: row;
+  gap: 0.25rem;
+}
+
+.profileInfo {
+  display: flex;
+}
+
+.profileInfoDisplayName input {
+  display: flex;
+  border: none;
+  background: none;
+  font-size: 48px;
+}
+
+.profileInfoUsername {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileInfoUsername input {
+  display: flex;
+  border: none;
+  background: none;
+  font-size: 18px;
+}
+
+.profileInfoBio {
+  display: flex;
+  flex-direction: column;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  min-width: 30rem;
+  max-width: 60rem;
+  height: 10rem;
+  box-sizing: border-box;
+  padding: .5rem;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent2);
+}
+
+h2 {
+  color: var(--text);
+}
+
+.settingsField {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.profileInfoBio input {
+  display: flex;
+  border: none;
+  background: none;
+}
