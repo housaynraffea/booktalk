@@ -13,7 +13,7 @@ export default function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/book/:key" element={<Book />} />
       <Route path="/profile/:username" element={<Profile />} />
-      <Route path="/review" element={<Review />} />
+      <Route path="/review/:review_id" element={<Review />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="*" element={<Home />} />
     </Routes>

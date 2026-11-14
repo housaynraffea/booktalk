@@ -5,8 +5,11 @@ import Footer from '@/common/components/global/footer';
 import { useParams } from 'react-router-dom';
 import { getBook, coverURL, type Book as BookData } from '@/api/book';
 import { useState, useEffect } from 'react';
+import BookReviews from '@/common/components/review/BookReviews';
+import { useAuth } from '@/common/context/AuthContext';
 
 const Book = () => {
+  const { user } = useAuth();
   const { key } = useParams();
   const [book, setBook] = useState<BookData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -49,6 +52,7 @@ const Book = () => {
             {book.description && <p>{book.description}</p>}
           </div>
         </div>
+        <BookReviews book_key={book.key} logged_in={!!user}/>
         <Footer/>
     </div>
   );

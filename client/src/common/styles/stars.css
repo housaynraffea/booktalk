@@ -1,0 +1,19 @@
+.star {
+    position: relative;
+    display: inline-block;
+    color: #cfcfcf;
+    line-height: 1;
+}
+
+.starInteractive {
+    cursor: pointer;
+}
+
+.starFill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #f5b301
+}

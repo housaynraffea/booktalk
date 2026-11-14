@@ -2,50 +2,134 @@ import Footer from '@/common/components/global/footer';
 import Navbar from '@/common/components/global/navbar';
 import '@/common/styles/index.css';
 import '@/common/styles/review.css';
-import { Link } from 'react-router-dom';
+import { useEffect, useState, type FormEvent } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import Stars from '@/common/components/review/stars';
+import { coverURL } from '@/api/book';
+import { getReview, deleteReview, type FullReview } from '@/api/review';
+import { getComments, addComment, deleteComment, type CommentWithAccount } from '@/api/comment';
+import { useAuth } from '@/common/context/AuthContext';
 
 const Review = () => {
+  const { review_id } = useParams();
+  const id = Number(review_id);
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const [review, setReview] = useState<FullReview | null>(null);
+  const [comments, setComments] = useState<CommentWithAccount[]>([]);
+  const [newComment, setNewComment] = useState('');
+  const [sort, setSort] = useState<'newest' | 'oldest'>('newest');
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!Number.isInteger(id)) {
+      setError('Invalid Review Id!');
+      setIsLoading(false);
+      return;
+    }
+
+    const abortController = new AbortController();
+    Promise.all([getReview(id, abortController.signal), getComments(id, abortController.signal)])
+      .then(([loadReview, loadComments]) => {
+        setReview(loadReview);
+        setComments(loadComments);
+      })
+      .catch((e) => {
+        if (e instanceof DOMException && e.name === 'AbortError') return;
+        setError(e instanceof Error ? e.message : 'Could not load review!');
+      })
+      .finally(() => {
+        if (!abortController.signal.aborted) setIsLoading(false);
+      });
+    
+    return () => abortController.abort();
+  }, [id]);
+
+  async function onComment(event: FormEvent) {
+    event.preventDefault();
+
+    try {
+      await addComment(id, newComment);
+      setNewComment('');
+      setComments(await getComments(id));
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Could not post comment!')
+    }
+  }
+
+  async function onDeleteComment(comment_id: number) {
+    try {
+      await deleteComment(comment_id);
+      setComments((current) => current.filter((comment) => comment.comment_id !== comment_id));
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Could not delete comment!')
+    }
+  }
+
+  async function onDeleteReview() {
+    try {
+      await deleteReview(id);
+      navigate(`/book/${encodeURIComponent(review!.book_key)}`);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Could not delete review!')
+    }
+  }
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!review) return <p>{error ?? 'Review not found'} </p>;
+
+  const sortedComments = [...comments].sort((a, b) => {
+    const diff = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+    return sort === 'newest' ? -diff : diff;
+  })
+
   return (
     <div>
       <Navbar/>
       <div className="review">
         <div className="reviewContainer">
           <div className="reviewBookCover">
-            <p><img src="/cover-placeholder.svg" width="300px"/></p>
+            <Link to={`/book/${encodeURIComponent(review.book_key)}`}>
+              <img src={coverURL(review.cover, 'L')} alt={review.title} width="300px"/>
+            </Link>
           </div>
           <div className="reviewInfo">
-
             <div className="reviewHeader">
               <div className="reviewHeaderProfilePicture">
                 <p><img src="/buttons/ProfileButton.svg" width="80px"/></p>
               </div>
               <div className="reviewHeaderInfo">
-                <h3>Display name's review</h3>
+                <h3>
+                  <Link to={`/profile/${review.username}`}>{review.display_name}</Link>
+                </h3>
 
                 <div className="reviewStars">
-                  <img src="/elements/star-1.svg" width="30px"/>
-                  <img src="/elements/star-1.svg" width="30px"/>
-                  <img src="/elements/star-1.svg" width="30px"/>
-                  <img src="/elements/star-0.svg" width="30px"/>
-                  <img src="/elements/star-0.svg" width="30px"/>
+                  <Stars value={review.stars}/>
                 </div>
               </div>
             </div>
 
-            <div className="reviewBody">
-              <div className="reviewDescription">
-                <p>Description (this is going to be a really really long description depicting Display name's reason for voting 3/5 stars for this book)</p>
+            {review.description && (
+              <div className="reviewBody">
+                <div className="reviewDescription">
+                  <p>{review.description}</p>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="reviewFooter">
               <div className="reviewDates">
-                <p>Last reviewed</p>
-                <p>Last updated</p>
+                <p>Last Reviewed: {new Date(review.created_at).toLocaleDateString('nb-NO')}</p>
+                <p>Last Updated: {new Date(review.updated_at).toLocaleDateString('nb-NO')}</p>
               </div>
               <div className="reviewLikes">
-                <p>100.9k</p>
+                <p>{review.likes}</p>
               </div>
+              {user?.account_id === review.account_id && (
+                <button onClick={onDeleteReview}>Delete Review</button>
+              )}
             </div>
           </div>
         </div>
@@ -53,159 +137,51 @@ const Review = () => {
         <div className="comments">
           <div className="commentsHeader">
             <h2>Comments</h2>
-            <select>
-              <option>Top</option>
-              <option>Newest</option>
-              <option>Oldest</option>
+            <select value={sort} onChange={(e) => setSort(e.target.value as 'newest' | 'oldest')}>
+              
+              <option value='newest'>Newest</option>
+              <option value='oldest'>Oldest</option>
             </select>
           </div>
+          
+          {user?.account_id !== null && (
+            <form onSubmit={onComment}>
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                maxLength={1000}
+                placeholder="Write a comment for this review!"
+              />
+              <button type="submit" disabled={newComment.trim() === ''}>Post</button>
+            </form>
+          )}
+
+          {error && <p>{error}</p>}
 
           <div className="commentsBody">
-            
-            <div className="comment">
-              <div className="commentProfilePicture">
-                <p><img src="/buttons/ProfileButton.svg" width="50px"/></p>
-              </div>
-              <div className="commentInfo">
-                <div className="commentProfileDisplayName">
-                  <h3>Display name</h3>
+            {sortedComments.map((comment) => (
+              <div className="comment" key={comment.comment_id}>
+                <div className="commentProfilePicture">
+                  <img src="/buttons/ProfileButton.svg" width="50px" alt=""/>
                 </div>
-                <div className="commentDescription">
-                  <p>description</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="comment">
-              <div className="commentProfilePicture">
-                <p><img src="/buttons/ProfileButton.svg" width="50px"/></p>
-              </div>
-              <div className="commentInfo">
-                <div className="commentProfileDisplayName">
-                  <h3>Display name</h3>
-                </div>
-                <div className="commentDescription">
-                  <p>description</p>
+                <div className="commentInfo">
+                  <div className="commentProfileDisplayName">
+                    <Link to={`/profile/${comment.username}`}>
+                      <h3>{comment.display_name}</h3>
+                    </Link>
+                  </div>
+                  <div className="commentDescription">
+                    <p>{comment.comment}</p>
+                  </div>
+                  {user?.account_id === comment.account_id && (
+                    <button onClick={() => onDeleteComment(comment.comment_id)}>Delete</button>
+                  )}
                 </div>
               </div>
-            </div>
-
-            <div className="comment">
-              <div className="commentProfilePicture">
-                <p><img src="/buttons/ProfileButton.svg" width="50px"/></p>
-              </div>
-              <div className="commentInfo">
-                <div className="commentProfileDisplayName">
-                  <h3>Display name</h3>
-                </div>
-                <div className="commentDescription">
-                  <p>description</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="comment">
-              <div className="commentProfilePicture">
-                <p><img src="/buttons/ProfileButton.svg" width="50px"/></p>
-              </div>
-              <div className="commentInfo">
-                <div className="commentProfileDisplayName">
-                  <h3>Display name</h3>
-                </div>
-                <div className="commentDescription">
-                  <p>description</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="comment">
-              <div className="commentProfilePicture">
-                <p><img src="/buttons/ProfileButton.svg" width="50px"/></p>
-              </div>
-              <div className="commentInfo">
-                <div className="commentProfileDisplayName">
-                  <h3>Display name</h3>
-                </div>
-                <div className="commentDescription">
-                  <p>description</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="comment">
-              <div className="commentProfilePicture">
-                <p><img src="/buttons/ProfileButton.svg" width="50px"/></p>
-              </div>
-              <div className="commentInfo">
-                <div className="commentProfileDisplayName">
-                  <h3>Display name</h3>
-                </div>
-                <div className="commentDescription">
-                  <p>description</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="comment">
-              <div className="commentProfilePicture">
-                <p><img src="/buttons/ProfileButton.svg" width="50px"/></p>
-              </div>
-              <div className="commentInfo">
-                <div className="commentProfileDisplayName">
-                  <h3>Display name</h3>
-                </div>
-                <div className="commentDescription">
-                  <p>description</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="comment">
-              <div className="commentProfilePicture">
-                <p><img src="/buttons/ProfileButton.svg" width="50px"/></p>
-              </div>
-              <div className="commentInfo">
-                <div className="commentProfileDisplayName">
-                  <h3>Display name</h3>
-                </div>
-                <div className="commentDescription">
-                  <p>description</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="comment">
-              <div className="commentProfilePicture">
-                <p><img src="/buttons/ProfileButton.svg" width="50px"/></p>
-              </div>
-              <div className="commentInfo">
-                <div className="commentProfileDisplayName">
-                  <h3>Display name</h3>
-                </div>
-                <div className="commentDescription">
-                  <p>description</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="comment">
-              <div className="commentProfilePicture">
-                <p><img src="/buttons/ProfileButton.svg" width="50px"/></p>
-              </div>
-              <div className="commentInfo">
-                <div className="commentProfileDisplayName">
-                  <h3>Display name</h3>
-                </div>
-                <div className="commentDescription">
-                  <p>description</p>
-                </div>
-              </div>
-            </div>
-
+            ))}
           </div>
         </div>
       </div>
-
       <Footer/>
     </div>
   );
