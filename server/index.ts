@@ -7,6 +7,7 @@ import { error } from "console";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { createAuthRouter, requireLogin } from "./auth";
+import { request } from "http";
 
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
@@ -21,6 +22,13 @@ const pool = new Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
 });
+
+function parseStars (value: unknown): number | null {
+    const stars = Number(value);
+    if (!Number.isFinite(stars) || stars < 1 || stars > 5) return null;
+    if (!Number.isInteger(stars * 2)) return null;
+    return stars;
+}
 
 const app = express();
 
@@ -130,8 +138,8 @@ app.get("/books/:key/reviews", async(request, response) => {
     try {
         const result = await pool.query(
             `SELECT r.review_id, r.stars, r.likes,
-                    r.description, r.created_at, a.account_id,
-                    a.username, a.display_name
+                    r.description, r.created_at, r.updated_at,
+                    a.account_id, a.username, a.display_name
             FROM "REVIEW" r
             JOIN "ACCOUNT" a ON a.account_id = r.account_id
             WHERE r.book_key = $1
@@ -143,6 +151,191 @@ app.get("/books/:key/reviews", async(request, response) => {
     catch (error) {
         console.log("Error executing query:", error);
         response.status(500).json({ error: "Could not load reviews!" });
+    }
+});
+
+// UPDATE or ADD new review
+app.post("/books/:key/reviews", requireLogin, async(request, response) => {
+    const account_id = request.session.account_id as number;
+    const stars = parseStars(request.body?.stars);
+    const description = String(request.body?.description ?? "").replace(/\r\n/g, "\n").trim();
+    
+    if (stars === null) {
+        response.status(400).json({ error: "You need to give it some stars!" });
+        return;
+    }
+
+    if (description.length > 5000) {
+        response.status(400).json({ error: "Description is too long! Must be under 5000 characters." });
+    }
+
+    try {
+        const result = await pool.query(
+            `INSERT INTO "REVIEW" (book_key, account_id, stars, description)
+            VALUES ($1, $2, $3, $4)
+            ON CONFLICT (account_id, book_key)
+            DO UPDATE SET stars = EXCLUDED.stars, description = EXCLUDED.description, updated_at = now()
+            RETURNING review_id, book_key, stars, likes, description, created_at, updated_at`,
+            [request.params.key, account_id, stars, description === "" ? null : description]
+        );
+        response.status(201).json(result.rows[0]);
+    }
+    catch (error) {
+        if ((error as { code?: string }).code === "23503") {
+            response.status(404).json({ error: "Book does not exist!" });
+            return;
+        }
+
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Could not save review!" });
+    }
+});
+
+// ONE review (for the Review page)
+app.get("/reviews/:review_id", async (request, response) => {
+    const review_id = Number(request.params.review_id);
+
+    if (!Number.isInteger(review_id)) {
+        response.status(400).json({ error: "Invalid Review Id!" });
+        return;
+    }
+
+    try {
+        const result = await pool.query(
+            `SELECT r.review_id, r.book_key, r.stars, 
+                    r.likes, r.description, r.created_at, 
+                    r.updated_at, a.account_id, a.username,
+                    a.display_name, b.title, b.authors,
+                    b.cover
+            FROM "REVIEW" r 
+            JOIN "ACCOUNT" a ON a.account_id = r.account_id
+            JOIN "BOOK" b on b.key = r.book_key
+            WHERE r.review_id = $1`,
+            [review_id]
+        );
+
+        if (result.rows.length === 0) {
+            response.status(404).json({ error: "Review not found!" });
+        }
+
+        response.json(result.rows[0]);
+    }
+    catch (error) {
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Could not load review!" });
+    }
+});
+
+app.delete("/reviews/:review_id", requireLogin, async (request, response) => {
+    const review_id = Number(request.params.review_id);
+
+    if (!Number.isInteger(review_id)) {
+        response.status(400).json({ error: "Invalid Review Id!" });
+        return;
+    }
+
+    try {
+        const result = await pool.query(
+            `DELETE FROM "REVIEW" WHERE review_id = $1 AND account_id = $2 RETURNING review_id`,
+            [review_id, request.session.account_id]
+        );
+
+        if (result.rowCount === 0) {
+            response.status(404).json({ error: "Review not found!" });
+        }
+
+        response.json({ ok: true });
+    }
+    catch (error) {
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Could not delete review!" });
+    }
+});
+
+app.get("/reviews/:review_id/comments", async (request, response) => {
+    const review_id = Number(request.params.review_id);
+
+    if (!Number.isInteger(review_id)) {
+        response.status(400).json({ error: "Invalid Review Id!" });
+        return;
+    }
+
+    try {
+        const result = await pool.query(
+            `SELECT c.comment_id, c.comment, c.likes,
+                    c.dislikes, c.created_at, a.account_id,
+                    a.username, a.display_name
+            FROM "COMMENT" c
+            JOIN "ACCOUNT" a ON a.account_id = c.account_id
+            WHERE c.review_id = $1
+            ORDER BY c.created_at
+            LIMIT 100`,
+            [review_id]
+        );
+        response.json({ comments: result.rows });
+    }
+    catch (error) {
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Could not load comments!" });
+    }
+});
+
+app.post("/reviews/:review_id/comments", requireLogin, async (request, response) => {
+    const review_id = Number(request.params.review_id);
+    const comment = String(request.body?.comment ?? "").replace(/\r\n/g, "\n").trim();
+
+    if (!Number.isInteger(review_id)) {
+        response.status(400).json({ error: "Invalid Review Id!" });
+        return;
+    }
+
+    if (comment.length < 1 || comment.length > 1000) {
+        response.status(400).json({ error: "Comment must be between 1-1000 characters!" });
+    }
+
+    try {
+        const result = await pool.query(
+            `INSERT INTO "COMMENT" (account_id, review_id, comment)
+            VALUES ($1, $2, $3)
+            RETURNING comment_id, review_id, comment, created_at`,
+            [request.session.account_id, review_id, comment]
+        );
+        response.status(201).json(result.rows[0]);
+    }
+    catch (error) {
+        if ((error as { code?: string }).code === "23503") {
+            response.status(404).json({ error: "Review does not exist!" });
+            return;
+        }
+
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Could not post comment!" });
+    }
+})
+
+app.delete("/comments/:comment_id", requireLogin, async (request, response) => {
+    const comment_id = Number(request.params.comment_id);
+
+    if (!Number.isInteger(comment_id)) {
+        response.status(400).json({ error: "Invalid Comment Id!" });
+        return;
+    }
+
+    try {
+        const result = await pool.query(
+            `DELETE FROM "COMMENT" WHERE comment_id = $1 AND account_id = $2 RETURNING comment_id`,
+            [comment_id, request.session.account_id]
+        );
+
+        if (result.rowCount === 0) {
+            response.status(404).json({ error: "Comment not found!" });
+        }
+
+        response.json({ ok: true });
+    }
+    catch (error) {
+        console.log("Error executing query:", error);
+        response.status(500).json({ error: "Could not post comment!" });
     }
 });
 
@@ -180,6 +373,7 @@ app.get("/accounts/username-available", async (request, response) => {
 
     if (username.length < 3 || username.length > 32 || !/^[A-Za-z0-9_]+$/.test(username)){
         response.status(400).json({ error: "Invalid username" });
+        return;
     }
 
     try {
@@ -264,6 +458,7 @@ app.get("/accounts/by-username/:username", async (request, response) => {
 
     if (!/^[A-Za-z0-9_]+$/.test(username)) {
         response.status(404).json({ error: "Account not found!" });
+        return;
     }
 
     try {
@@ -286,33 +481,6 @@ app.get("/accounts/by-username/:username", async (request, response) => {
     catch (error) {
         console.log("Error executing query:", error);
         response.status(500).json({ error: "Invalid account username" });
-    }
-});
-
-app.get("/comments/:review_id", async(request, response) => {
-    const reviewId = Number(request.params.review_id);
-
-    if (!Number.isInteger(reviewId)) {
-        response.status(400).json({ error: "Invalid Review Id" });
-        return;
-    }
-    
-    try {
-        const result = await pool.query(
-            `SELECT c.comment_id, c.comment, c.likes,
-                    c.dislikes, c.created_at, a.account_id,
-                    a.username, a.display_name
-            FROM "COMMENT" c
-            JOIN "ACCOUNT" a ON a.account_id = c.account_id
-            WHERE c.review_id = $1
-            ORDER BY c.created_at
-            LIMIT 100`,
-            [reviewId]);
-        response.json({ comment: result.rows });
-    }
-    catch (error) {
-        console.log("Error executing query:", error);
-        response.status(500).json({ error: "Could not load comments!" });
     }
 });
 
@@ -356,10 +524,12 @@ app.patch("/accounts/me", requireLogin, async (request, response) => {
         const db_error = error as { code?: string };
         if (db_error.code === "23505") {
             response.status(409).json({ error: "Username is taken!" });
+            return;
         }
 
         if (db_error.code === "23503") {
             response.status(409).json({ error: "Book does not exist!" });
+            return;
         }
 
         console.log("Account update error! Error:", error);

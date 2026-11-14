@@ -7,3 +7,6 @@ export type Comment = {
     dislikes: number;
     created_at: string;
 }
+
+const API_URL = import.meta.env.VITE_API_URL;
+
