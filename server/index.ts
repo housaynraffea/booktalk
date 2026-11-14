@@ -434,8 +434,8 @@ app.get("/accounts/:account_id/reviews", async(request, response) => {
     try {
         const result = await pool.query(
             `SELECT r.review_id, r.book_key, r.stars, r.likes, 
-                    r.description, r.created_at, b.title,
-                    b.authors, b.cover
+                    r.description, r.created_at, r.updated_at, 
+                    b.title, b.authors, b.cover
             FROM "REVIEW" r
             JOIN "BOOK" b ON b.key = r.book_key
             WHERE r.account_id = $1

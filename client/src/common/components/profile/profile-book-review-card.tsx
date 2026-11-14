@@ -1,41 +1,45 @@
 import { Link } from "react-router-dom";
 import '@/common/styles/profile-book-review-card.css';
+import type { Review } from "@/api/review";
+import { coverURL } from "@/api/book";
+import Stars from "@/common/components/review/stars";
 
-const ProfileBookReviewCard = () => {
+type Prop = {
+    review: Review;
+}
+
+const ProfileBookReviewCard = ({ review }: Prop) => {
     const reviewElementWidths = "14px";
 
-
     return ( // to="/review/id?="
-        <Link to="/review">
+        <Link to={`/review/${review.review_id}`}>
             <div className="cardBody">
                 <div className="cardBookCover">
-                    <img src="/cover-placeholder.svg" width="150px"/>
+                    <img src={coverURL(review.cover, 'M')} alt={review.title} width="150px"/>
                 </div>
                 <div className="cardInfo">
                     <div className="cardInfoHeader">
-                        <h4>Book</h4>
+                        <h4>{review.title}</h4>
                     </div>
                     
                     <div className="cardInfoStars">
-                        <img src="/elements/star-1.svg" width={reviewElementWidths}/>
-                        <img src="/elements/star-1.svg" width={reviewElementWidths}/>
-                        <img src="/elements/star-1.svg" width={reviewElementWidths}/>
-                        <img src="/elements/star-0.svg" width={reviewElementWidths}/>
-                        <img src="/elements/star-0.svg" width={reviewElementWidths}/>
+                        <Stars value={review.stars} size={14}/>
                     </div>
                     
-                    <div className="cardInfoDescription">
-                        <p>Description</p>
-                    </div>
+                    {review.description && (
+                        <div className="cardInfoDescription">
+                            <p>Description</p>
+                        </div>
+                    )}
 
                     <div className="cardFooter">
                         <div className="cardFooterDates">
-                            <p>Review date</p>
-                            <p>Last updated</p>
+                            <p>Last Reviewed: {new Date(review.created_at).toLocaleDateString('nb-NO')}</p>
+                            <p>Last Updated: {new Date(review.updated_at).toLocaleDateString('nb-NO')}</p>
                         </div>
 
                         <div className="cardFooterLikeButton">
-                            <img src="/elements/heart-1.svg" width={reviewElementWidths}/> <span>100.9k</span>
+                            <img src="/elements/heart-1.svg" width={reviewElementWidths}/> <span>{review.likes}</span>
                         </div>
                     </div>
                 </div>

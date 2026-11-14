@@ -3,19 +3,15 @@ export type Review = {
     account_id: number;
     username: string;
     display_name: string;
+    book_key: string;
+    title: string;
+    authors: string;
+    cover: number | null;
     stars: number;
     description: string | null;
     likes: number;
     created_at: string;
     updated_at: string;
-};
-
-
-export type FullReview = Review & {
-    book_key: string;
-    title: string;
-    authors: string;
-    cover: number | null;
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -36,7 +32,7 @@ export async function getBookReviews(book_key: string, signal?: AbortSignal): Pr
     return data;
 }
 
-export async function getReview(review_id: number, signal?: AbortSignal): Promise<FullReview> {
+export async function getReview(review_id: number, signal?: AbortSignal): Promise<Review> {
     const response = await fetch(`${API_URL}/reviews/${review_id}`, { signal });
 
     if (!response.ok) throw new Error("Could not load review!");

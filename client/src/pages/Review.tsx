@@ -6,7 +6,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Stars from '@/common/components/review/stars';
 import { coverURL } from '@/api/book';
-import { getReview, deleteReview, type FullReview } from '@/api/review';
+import { getReview, deleteReview, type Review as ReviewData } from '@/api/review';
 import { getComments, addComment, deleteComment, type CommentWithAccount } from '@/api/comment';
 import { useAuth } from '@/common/context/AuthContext';
 
@@ -16,7 +16,7 @@ const Review = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const [review, setReview] = useState<FullReview | null>(null);
+  const [review, setReview] = useState<ReviewData | null>(null);
   const [comments, setComments] = useState<CommentWithAccount[]>([]);
   const [newComment, setNewComment] = useState('');
   const [sort, setSort] = useState<'newest' | 'oldest'>('newest');

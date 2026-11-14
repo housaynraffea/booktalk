@@ -50,7 +50,6 @@ const Profile = () => {
     }
     
     loadProfile();
-    console.log(username);
 
     return () => abortController.abort();
   }, [username]);
@@ -86,7 +85,7 @@ const Profile = () => {
               </div>
               <div className="profileFavouriteBookContainer">
                 {account.favourite_book_key ? (
-                  <Link to={`/book/${account.favourite_book_key}`}>
+                  <Link to={`/book/${encodeURIComponent(account.favourite_book_key)}`}>
                     <img src={coverURL(account.favourite_book_cover, 'L')} alt={ account.favourite_book_title ?? ""} width="250px"/>
                   </Link>
                 ) : (
@@ -105,7 +104,7 @@ const Profile = () => {
               {reviews.length === 0 && <p>No reviews yet.</p>}
               {reviews.map((review) => (
                 <div className="profileReviewCard" key={review.review_id}>
-                  <ProfileBookReviewCard/>
+                  <ProfileBookReviewCard review={review}/>
                 </div>
               ))}
             </div>
