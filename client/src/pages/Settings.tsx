@@ -5,7 +5,9 @@ import { useAuth } from '@/common/context/AuthContext';
 import { useSettings } from '@/common/context/SettingsContext';
 import '@/common/styles/index.css';
 import '@/common/styles/settings.css';
-import { useEffect, useState, type FormEvent } from 'react';
+import React, { useRef, useEffect, useState, type FormEvent } from 'react';
+import { uploadProfilePicture, deleteProfilePicture } from '@/api/profile-picure';
+import ProfilePicture from '@/common/components/global/profile-picture';
 import FavouriteBookPicker from '@/common/components/settings/favourite-book-picker';
 
 type AccountForm = {
@@ -35,6 +37,10 @@ const Settings = () => {
   const [form, setForm] = useState<AccountForm | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<Message>();
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [profilePictureVersion, setProfilePictureVersion] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -92,6 +98,44 @@ const Settings = () => {
       setMessage({ kind: 'error', text: text});
     }
   };
+
+  const handleProfilePictureChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = ''; // can choose the same file again
+    if (!file) return;
+
+    if (file.size > 2*1024*1024) {
+      setMessage({ kind: 'error', text: 'Image must be under 2 MB!'});
+      return;
+    }
+
+    setIsUploading(true);
+    setMessage(null);
+
+    try {
+      await uploadProfilePicture(file);
+      setProfilePictureVersion(Date.now());
+      setMessage({ kind: 'success', text: 'Profile picture updated!'})
+    } catch (error) {
+      setMessage({ kind: 'error', text: error instanceof Error ? error.message : 'Could not upload image!'});
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleProfilePictureDelete = async () => {
+    setIsUploading(true);
+    setMessage(null);
+
+    try {
+      await deleteProfilePicture();
+      setProfilePictureVersion(Date.now());
+    } catch (error) {
+      setMessage({ kind: 'error', text: error instanceof Error ? error.message : 'Could not delete image!'});
+    } finally {
+      setIsUploading(false);
+    }
+  }
 
   const handleSave = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -165,7 +209,22 @@ const Settings = () => {
                     <form onSubmit={handleSave}>
                       <div className="profilePanel">
                         <div className="profilePicture">
-                          <img src="/buttons/ProfileButton.svg" width="250px" height="250px"/>
+                          <ProfilePicture account_id={user.account_id} size={250} version={profilePictureVersion}/>
+                          <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/png,image/jpeg,image/webp,image/gif"
+                            onChange={handleProfilePictureChange}
+                            hidden
+                          />
+                          <div className="profilePictureButtons">
+                            <button type="button" disabled={isUploading} onClick={() => fileInputRef.current?.click()}>
+                              {isUploading ? 'Uploading...' : 'Upload'}
+                            </button>
+                            <button type="button" disabled={isUploading} onClick={handleProfilePictureDelete}>
+                              Delete
+                            </button>
+                          </div>
                         </div>
                         <div className="profileInfo">
                           <div className="profileInfoDisplayName">

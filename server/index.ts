@@ -3,11 +3,11 @@ import cors from "cors";
 import { Pool } from "pg";
 import path from "path";
 import dotenv from "dotenv";
-import { error } from "console";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
 import { createAuthRouter, requireLogin } from "./auth";
-import { request } from "http";
+import multer from "multer";
+import sharp from "sharp";
 
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
@@ -22,6 +22,13 @@ const pool = new Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
 });
+
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 2*1024*1024, files: 1},
+});
+
+const PROFILE_PICTURE_FORMATS = ["jpeg", "png", "webp", "gif"];
 
 function parseStars (value: unknown): number | null {
     const stars = Number(value);
@@ -167,6 +174,7 @@ app.post("/books/:key/reviews", requireLogin, async(request, response) => {
 
     if (description.length > 5000) {
         response.status(400).json({ error: "Description is too long! Must be under 5000 characters." });
+        return;
     }
 
     try {
@@ -216,6 +224,7 @@ app.get("/reviews/:review_id", async (request, response) => {
 
         if (result.rows.length === 0) {
             response.status(404).json({ error: "Review not found!" });
+            return;
         }
 
         response.json(result.rows[0]);
@@ -242,6 +251,7 @@ app.delete("/reviews/:review_id", requireLogin, async (request, response) => {
 
         if (result.rowCount === 0) {
             response.status(404).json({ error: "Review not found!" });
+            return;
         }
 
         response.json({ ok: true });
@@ -291,6 +301,7 @@ app.post("/reviews/:review_id/comments", requireLogin, async (request, response)
 
     if (comment.length < 1 || comment.length > 1000) {
         response.status(400).json({ error: "Comment must be between 1-1000 characters!" });
+        return;
     }
 
     try {
@@ -329,6 +340,7 @@ app.delete("/comments/:comment_id", requireLogin, async (request, response) => {
 
         if (result.rowCount === 0) {
             response.status(404).json({ error: "Comment not found!" });
+            return;
         }
 
         response.json({ ok: true });
@@ -474,6 +486,7 @@ app.get("/accounts/by-username/:username", async (request, response) => {
         
         if (result.rows.length === 0) {
             response.status(404).json({ error: "Account not found!" });
+            return;
         }
 
         response.json(result.rows[0]);
@@ -534,6 +547,94 @@ app.patch("/accounts/me", requireLogin, async (request, response) => {
 
         console.log("Account update error! Error:", error);
         response.status(500).json({ error: "Could not save your changes" });
+    }
+});
+
+app.put("/accounts/me/profile-picture", requireLogin, 
+    (request, response, next) => {
+        upload.single("image")(request, response, (error) => {
+            if (error) {
+                const too_big = error instanceof multer.MulterError && error.code === "LIMIT_FILE_SIZE";
+                response.status(too_big ? 413 : 400).json({ error: too_big ? "Image must be under 2 MB!" : "Invalid upload!" });
+                return;
+            }
+            next();
+        });
+    },
+
+    async (request, response) => {
+        if (!request.file) {
+            response.status(400).json({ error: "No image was uploaded!" });
+            return;
+        }
+
+        try {
+            const input = sharp(request.file.buffer, { limitInputPixels: 25000000 });
+            const metadata = await input.metadata();
+
+            if (!metadata.format || !PROFILE_PICTURE_FORMATS.includes(metadata.format)) {
+                response.status(400).json({ error: "Unacceptable file format! Must be either .jpeg, .png, .webp or .gif!" });
+                return;
+            }
+
+            const image = await input.rotate().resize(256, 256, { fit: "cover" }).webp({ quality: 80 }).toBuffer();
+            // respect EXIF, square crop, metadata is stripped (default)
+
+            await pool.query(`
+                INSERT INTO "ACCOUNT_PROFILE_PICTURE" (account_id, image, content_type)
+                VALUES ($1, $2, 'image/webp')
+                ON CONFLICT (account_id)
+                DO UPDATE SET image = EXCLUDED.image, content_type = EXCLUDED.content_type`,
+                [request.session.account_id, image]
+            );
+
+            response.json({ ok: true });
+        } catch (error) {
+            console.log("Profile picture error! Error:", error);
+            response.status(400).json({ error: "Could not process image!" });
+        }
+    }
+);
+
+app.delete("/accounts/me/profile-picture", requireLogin, async (request, response) => {
+    try {
+        await pool.query(`
+            DELETE FROM "ACCOUNT_PROFILE_PICTURE" WHERE account_id = $1`,
+            [request.session.account_id]
+        );
+        response.json({ ok: true });
+    } catch (error) {
+        console.log("Error executing query! Error:", error);
+        response.status(500).json({ error: "Could not delete image!" });
+    }
+});
+
+app.get("/accounts/:account_id/profile-picture", async (request, response) => {
+    const account_id = Number(request.params.account_id);
+
+    if (!Number.isInteger(account_id)) {
+        response.status(400).json({ error: "Invalid Account Id!" });
+        return;
+    }
+
+    try {
+        const result = await pool.query(`
+            SELECT image, content_type FROM "ACCOUNT_PROFILE_PICTURE" WHERE account_id = $1`, 
+            [account_id]
+        );
+
+        if (result.rows.length === 0) {
+            response.status(404).end();
+            return;
+        }
+
+        const { image, content_type } = result.rows[0];
+        response.set("Cache-Control", "no-cache"); // always revalidate
+        response.type(content_type);
+        response.send(image);
+    } catch (error) {
+        console.log("Error executing query! Error:", error);
+        response.status(500).json({ error: "Could not get profile picture!" });
     }
 });
 

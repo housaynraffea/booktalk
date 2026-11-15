@@ -23,12 +23,12 @@ const ProfileBookReviewCard = ({ review }: Prop) => {
                     </div>
                     
                     <div className="cardInfoStars">
-                        <Stars value={review.stars} size={14}/>
+                        <Stars value={review.stars} size={32}/>
                     </div>
                     
                     {review.description && (
                         <div className="cardInfoDescription">
-                            <p>Description</p>
+                            <p>{review.description}</p>
                         </div>
                     )}
 

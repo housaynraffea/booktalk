@@ -4,3 +4,8 @@
     flex-direction: row;
     gap: 1rem;
 }
+
+.bookInfoText h1 {
+    line-height: 3rem;
+    margin-top: 0;
+}

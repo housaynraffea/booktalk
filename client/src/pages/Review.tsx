@@ -9,6 +9,7 @@ import { coverURL } from '@/api/book';
 import { getReview, deleteReview, type Review as ReviewData } from '@/api/review';
 import { getComments, addComment, deleteComment, type CommentWithAccount } from '@/api/comment';
 import { useAuth } from '@/common/context/AuthContext';
+import ProfilePicture from '@/common/components/global/profile-picture';
 
 const Review = () => {
   const { review_id } = useParams();
@@ -98,7 +99,7 @@ const Review = () => {
           <div className="reviewInfo">
             <div className="reviewHeader">
               <div className="reviewHeaderProfilePicture">
-                <p><img src="/buttons/ProfileButton.svg" width="80px"/></p>
+                <ProfilePicture account_id={review.account_id} size={80}/>
               </div>
               <div className="reviewHeaderInfo">
                 <h3>
@@ -162,7 +163,7 @@ const Review = () => {
             {sortedComments.map((comment) => (
               <div className="comment" key={comment.comment_id}>
                 <div className="commentProfilePicture">
-                  <img src="/buttons/ProfileButton.svg" width="50px" alt=""/>
+                  <ProfilePicture account_id={comment.account_id} size={50}/>
                 </div>
                 <div className="commentInfo">
                   <div className="commentProfileDisplayName">

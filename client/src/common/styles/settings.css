@@ -66,6 +66,18 @@ div.settingsContent {
   display: flex;
 }
 
+.profilePicture {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profilePictureButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
 .profileInfoDisplayName input {
   display: flex;
   border: none;

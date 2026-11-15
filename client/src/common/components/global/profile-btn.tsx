@@ -1,24 +1,19 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/common/context/AuthContext";
-
-const API_URL = import.meta.env.VITE_API_URL;
-const placeholder_profile_picture = "/buttons/ProfileButton.svg"
+import ProfilePicture from "./profile-picture";
 
 const ProfileButton = () => {
     const { user } = useAuth();
 
     const profilePath = user ? `/profile/${user.username}` : "/login";
-    const profilePicture = user ? `${API_URL}/users/${user.account_id}/avatar` : placeholder_profile_picture;
 
     return (
         <Link to={profilePath}>
-            <img src={profilePicture} 
-                 width="35px" 
-                 alt="Profile"
-                 onError={(error) => {
-                    error.currentTarget.onerror = null;
-                    error.currentTarget.src = placeholder_profile_picture;
-                }}/>
+            {user ? (
+                <ProfilePicture account_id={user.account_id} size={30}/>
+            ) : (
+                <img src="/buttons/ProfileButton.svg" alt="Log in" width="30px"/>
+            )}
         </Link>
     );
 };

@@ -28,9 +28,9 @@ const Stars = ({ value, onChange, size = 30 }: Props) => {
                         style={{ fontSize: size }}
                         onMouseMove={onChange ? (e) => setHover(valueAt(e, star)) : undefined}
                         onClick={onChange ? (e) => onChange(valueAt(e, star)) : undefined}>
-                        star
+                        ★
                         <span className="starFill" style={{ width: `${fill*100}%` }}>
-                            starfill
+                            ★
                         </span>
                     </span>
                 );

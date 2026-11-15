@@ -5,18 +5,22 @@
     padding: 0.5rem;
     border-radius: 10px;
     gap: 1rem;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .cardBookCover {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .cardBookCover img {
     border-radius: 10px;
-    /* unsure where to put these two */
-    flex-shrink: 0;
     object-fit: cover;
 }
 
@@ -29,13 +33,14 @@
 
 .cardInfoHeader {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    min-width: 0;
+}
+
+.cardInfoHeader h4 {
+    min-width: 0;
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
-    margin-top: -1rem;
-    margin-bottom: -1rem;
 }
 
 .cardInfoStars {
@@ -43,13 +48,26 @@
     justify-content: flex-start;
     align-items: center;
     text-align: center;
-    background-color: #111111;
+    margin-top: -1rem;
     margin-bottom: 0.5rem;
     border-radius: 15px;
     width: fit-content;
     height: fit-content;
-    padding: 0.25rem;
     gap: 0.25rem;
+}
+
+.cardInfoDescription {
+    min-width: 0;
+}
+
+.cardInfoDescription p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    min-width: 0;
 }
 
 .cardFooter {
@@ -63,7 +81,7 @@
     display: flex;
     margin-right: auto;
     flex-direction: column;
-    font-size: 9px;
+    font-size: 14px;
     line-height: 1.5;
 }
 

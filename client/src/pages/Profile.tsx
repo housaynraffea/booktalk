@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { type Account, getAccountByUsername } from '@/api/account';
 import { getAccountReviews, type Review } from '@/api/review';
 import { coverURL } from '@/api/book';
+import ProfilePicture from '@/common/components/global/profile-picture';
 
 const Profile = () => {
   const { username } = useParams();
@@ -72,7 +73,7 @@ const Profile = () => {
         <div className="profile">
           <div className="profilePanel">
             <div className="profilePicture">
-              <img src="/buttons/ProfileButton.svg" width="250px" height="250px"/>
+              <ProfilePicture account_id={account.account_id} size={300}/>
             </div>
             <div className="profileInfo">
               <h1>{account.display_name}</h1>
@@ -101,13 +102,13 @@ const Profile = () => {
               <h3>Reviews</h3>
             </div>
             <div className="profileReviewsPanelBody">
-              {reviews.length === 0 && <p>No reviews yet.</p>}
               {reviews.map((review) => (
                 <div className="profileReviewCard" key={review.review_id}>
                   <ProfileBookReviewCard review={review}/>
                 </div>
               ))}
             </div>
+            {reviews.length === 0 && <p>No reviews yet.</p>}
           </div>
         </div>
         <Footer/>
