@@ -9,7 +9,6 @@ export type Review = {
     cover: number | null;
     stars: number;
     description: string | null;
-    likes: number;
     created_at: string;
     updated_at: string;
 };

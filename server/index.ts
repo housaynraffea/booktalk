@@ -144,9 +144,9 @@ app.get("/books/:key", async(request, response) => {
 app.get("/books/:key/reviews", async(request, response) => {
     try {
         const result = await pool.query(
-            `SELECT r.review_id, r.stars, r.likes,
-                    r.description, r.created_at, r.updated_at,
-                    a.account_id, a.username, a.display_name
+            `SELECT r.review_id, r.stars, r.description, 
+                    r.created_at, r.updated_at, a.account_id,
+                    a.username, a.display_name
             FROM "REVIEW" r
             JOIN "ACCOUNT" a ON a.account_id = r.account_id
             WHERE r.book_key = $1
@@ -183,7 +183,7 @@ app.post("/books/:key/reviews", requireLogin, async(request, response) => {
             VALUES ($1, $2, $3, $4)
             ON CONFLICT (account_id, book_key)
             DO UPDATE SET stars = EXCLUDED.stars, description = EXCLUDED.description, updated_at = now()
-            RETURNING review_id, book_key, stars, likes, description, created_at, updated_at`,
+            RETURNING review_id, book_key, stars, description, created_at, updated_at`,
             [request.params.key, account_id, stars, description === "" ? null : description]
         );
         response.status(201).json(result.rows[0]);
@@ -211,10 +211,9 @@ app.get("/reviews/:review_id", async (request, response) => {
     try {
         const result = await pool.query(
             `SELECT r.review_id, r.book_key, r.stars, 
-                    r.likes, r.description, r.created_at, 
-                    r.updated_at, a.account_id, a.username,
-                    a.display_name, b.title, b.authors,
-                    b.cover
+                    r.description, r.created_at, r.updated_at,
+                    a.account_id, a.username, a.display_name,
+                    b.title, b.authors, b.cover
             FROM "REVIEW" r 
             JOIN "ACCOUNT" a ON a.account_id = r.account_id
             JOIN "BOOK" b on b.key = r.book_key
@@ -272,9 +271,8 @@ app.get("/reviews/:review_id/comments", async (request, response) => {
 
     try {
         const result = await pool.query(
-            `SELECT c.comment_id, c.comment, c.likes,
-                    c.dislikes, c.created_at, a.account_id,
-                    a.username, a.display_name
+            `SELECT c.comment_id, c.comment, c.created_at, 
+                    a.account_id, a.username, a.display_name
             FROM "COMMENT" c
             JOIN "ACCOUNT" a ON a.account_id = c.account_id
             WHERE c.review_id = $1
@@ -445,7 +443,7 @@ app.get("/accounts/:account_id/reviews", async(request, response) => {
     
     try {
         const result = await pool.query(
-            `SELECT r.review_id, r.book_key, r.stars, r.likes, 
+            `SELECT r.review_id, r.book_key, r.stars,
                     r.description, r.created_at, r.updated_at, 
                     b.title, b.authors, b.cover
             FROM "REVIEW" r

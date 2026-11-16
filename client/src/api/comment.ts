@@ -3,8 +3,6 @@ export type Comment = {
     account_id: number;
     review_id: number;
     comment: string;
-    likes: number;
-    dislikes: number;
     created_at: string;
 }
 
