@@ -20,10 +20,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+
+  min-height: 100vh;
 }
 
 :root[data-theme='light'] {
@@ -32,21 +30,21 @@
   --bg: #fff;
   --border: #e5e4e7;
   
-  --accent1: #96A78D;
-  --accent1-bg: rgba(150, 167, 141, 0.1);;
-  --accent1-border: rgba(150, 167, 141, 0.5);
+  --accent1: #727D73;
+  --accent1-bg: rgba(114, 125, 115, 0.1);
+  --accent1-border: rgba(114, 125, 115, 0.5);
   
-  --accent2: #B6CEB4;
-  --accent2-bg: rgba(182, 206, 180, 0.1);
-  --accent2-border: rgba(182, 206, 180, 0.5);
+  --accent2: #AAB99A;
+  --accent2-bg: rgba(170, 185, 154, 0.1);
+  --accent2-border: rgba(170, 185, 154, 0.5);
   
-  --accent3: #D9E9CF;
-  --accent3-bg: rgba(217, 233, 207, 0.1);
-  --accent3-border: rgba(217, 233, 207, 0.5);
+  --accent3: #D0DDD0;
+  --accent3-bg: rgba(208, 221, 208, 0.1);
+  --accent3-border: rgba(208, 221, 208, 0.5);
   
-  --accent4: #F0F0F0;
-  --accent4-bg: rgba(240, 240, 240, 0.1);
-  --accent4-border: rgba(240, 240, 240, 0.5);
+  --accent4: #F0F0D7;
+  --accent4-bg: rgba(240, 240, 215, 0.1);
+  --accent4-border: rgba(240, 240, 215, 0.5);
 
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
@@ -55,7 +53,7 @@
 :root[data-theme='dark'] {
   --text: #fff;
   --text-h: #f3f4f6;
-  --bg: #181818;
+  --bg: #000;
   --border: #2e303a;
 
   --accent1: #092328;
@@ -80,7 +78,7 @@
 
 #root {
   margin: 0 auto;
-  min-height: 100svh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;

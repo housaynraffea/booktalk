@@ -4,6 +4,7 @@ import { searchBooks, coverURL, type Book } from '@/api/book';
 import { useSettings } from '@/common/context/SettingsContext';
 import { Link } from 'react-router-dom';
 import { searchAccounts, type AccountSearchResult } from '@/api/account';
+import ProfilePicture from './profile-picture';
 
 const SearchField = () => {
     const { showCover, showProfilePicture } = useSettings();
@@ -87,7 +88,7 @@ const SearchField = () => {
 
     return (
         <div className="searchField" ref={containerRef}>
-            <input className="searchInput"
+            <input className="searchFieldInput"
                 type="text"
                 value={searchItem}
                 onChange={handleInputChange}
@@ -100,8 +101,8 @@ const SearchField = () => {
                     {isLoading && <li className="searchResultMessage">Searching...</li>}
                     {error && <li className="searchResultMessage">{error}</li>}
                     {books.map((book) => (
-                        <li className="bookSearchResult" key={book.key}>
-                            <Link to={`/book/${book.key}`} onClick={() => setIsOpen(false)}>
+                        <Link to={`/book/${book.key}`} onClick={() => setIsOpen(false)}>
+                            <li className="bookSearchResult" key={book.key}>
                                 { showCover && (
                                     <img className="bookSearchResultCover" alt="" src={coverURL(book.cover, 'S')} loading="lazy"/>
                                 )}
@@ -109,22 +110,22 @@ const SearchField = () => {
                                     <span className="bookSearchResultTitle">{book.title}</span>
                                     <span className="bookSearchResultAuthors">{book.authors}</span>
                                 </div>
-                            </Link>
-                        </li>
+                            </li>
+                        </Link>
                     ))}
 
                     {accountSearchResult.map((account) => (
-                        <li className="accountSearchResult" key={account.account_id}>
-                            <Link to={`/profile/${account.username}`} onClick={() => setIsOpen(false)}>
+                        <Link to={`/profile/${account.username}`} onClick={() => setIsOpen(false)}>
+                            <li className="accountSearchResult" key={account.account_id}>
                                 { showProfilePicture && (
-                                    <img className="accountSearchResultProfilePicture" alt="" src="/buttons/ProfileButton.svg" loading="lazy"/>
+                                    <ProfilePicture account_id={account.account_id} size={50}/>
                                 )}
                                 <div className="accountSearchResultText">
                                     <span className="accountSearchResultDisplayName">{account.display_name}</span>
                                     <span className="accountSearchResultUsername">@{account.username}</span>
                                 </div>
-                            </Link>
-                        </li>
+                            </li>
+                        </Link>
                     ))}
                 </ul>
             )}

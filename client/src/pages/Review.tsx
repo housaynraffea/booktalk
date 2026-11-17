@@ -125,9 +125,6 @@ const Review = () => {
                 <p>Last Reviewed: {new Date(review.created_at).toLocaleDateString('nb-NO')}</p>
                 <p>Last Updated: {new Date(review.updated_at).toLocaleDateString('nb-NO')}</p>
               </div>
-              <div className="reviewLikes">
-                <p>{review.likes}</p>
-              </div>
               {user?.account_id === review.account_id && (
                 <button onClick={onDeleteReview}>Delete Review</button>
               )}

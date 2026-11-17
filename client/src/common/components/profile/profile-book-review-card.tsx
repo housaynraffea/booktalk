@@ -9,9 +9,7 @@ type Prop = {
 }
 
 const ProfileBookReviewCard = ({ review }: Prop) => {
-    const reviewElementWidths = "14px";
-
-    return ( // to="/review/id?="
+    return (
         <Link to={`/review/${review.review_id}`}>
             <div className="cardBody">
                 <div className="cardBookCover">
@@ -36,10 +34,6 @@ const ProfileBookReviewCard = ({ review }: Prop) => {
                         <div className="cardFooterDates">
                             <p>Last Reviewed: {new Date(review.created_at).toLocaleDateString('nb-NO')}</p>
                             <p>Last Updated: {new Date(review.updated_at).toLocaleDateString('nb-NO')}</p>
-                        </div>
-
-                        <div className="cardFooterLikeButton">
-                            <img src="/elements/heart-1.svg" width={reviewElementWidths}/> <span>{review.likes}</span>
                         </div>
                     </div>
                 </div>

@@ -2,22 +2,20 @@
   position: relative;
 }
 
-.searchInput {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  width: 35rem;
-  height: 2rem;
-  padding-left: 1.55rem;
-  margin-left: 5%;
-  border-radius: 200px;
-  font-size: 0.9rem;
-  border: none;
-  background-color: var(--bg);
-  color: var(--text);
-  z-index: 1;
+.searchFieldInput {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	flex-wrap: wrap;
+	width: 27.25rem;
+	height: 2rem;
+	padding-left: 1.55rem;
+	border-radius: 200px;
+	font-size: 0.9rem;
+	border: none;
+	background-color: var(--bg);
+	color: var(--text);
 }
 
 .searchResultMessage {
@@ -52,6 +50,7 @@
   height: 64px;
   padding: 0 12px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .accountSearchResult:hover {
@@ -93,6 +92,7 @@
   height: 64px;
   padding: 0 12px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .bookSearchResult:hover {

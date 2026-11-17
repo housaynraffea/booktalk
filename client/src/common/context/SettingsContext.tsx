@@ -23,7 +23,7 @@ export function SettingsProvider({children}: { children: ReactNode }) {
     const [showCover, setShowCover] = useCookieSetting<boolean>('ShowCover', true);
     const [showProfilePicture, setShowProfilePicture] = useCookieSetting<boolean>('ShowProfilePicture', true);
 
-    console.log(theme);
+    //console.log(theme);
 
     useEffect(() => {
         document.documentElement.dataset.theme = theme;
