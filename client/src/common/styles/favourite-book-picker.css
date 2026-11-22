@@ -108,8 +108,6 @@
     box-sizing: border-box;
 }
 
-
-
 .bookSearchResultCover {
     width: 36px;
     height: 48px;
@@ -153,12 +151,13 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 .bookPickerCurrent button {
     border: none;
     background-color: red;
+    color: white;
     border-radius: 5px;
     font-size: 18px;
     padding: 0.5rem;

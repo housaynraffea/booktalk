@@ -124,7 +124,7 @@ h2 {
 
 .settingsField {
   background-color: var(--bg);
-  color: var(--text);
+  color: white;
 }
 
 .profileInfoBio input {

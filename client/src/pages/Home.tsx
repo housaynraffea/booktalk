@@ -3,13 +3,21 @@ import '@/common/styles/index.css';
 import '@/common/styles/home.css';
 import Footer from '@/common/components/global/footer';
 import { useSettings } from '@/common/context/SettingsContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/common/context/AuthContext';
+import { coverURL, getAccountRecommendedBooks, getPopularBooks, type PopularBook, type RecommendedBook } from '@/api/book';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const randomize = <T,>(array: T[]) => array[Math.floor(Math.random() * array.length)];
   const { showRecommended, showPopular } = useSettings();
   const { user, isLoading: isAuthLoading } = useAuth();
+  
+  const [recommendedBooks, setRecommendedBooks] = useState<RecommendedBook[]>([]);
+  const [recommendedBookError, setRecommendedBookError] = useState<string | null>(null);
+
+  const [popularBooks, setPopularBooks] = useState<PopularBook[]>([]);
+  const [popularBookError, setPopularBookError] = useState<string | null>(null);
 
   const isLoggedIn = !isAuthLoading && user !== null;
   
@@ -38,15 +46,44 @@ const Home = () => {
   const [popularQuote] = useState(() => randomize(popularRandomQuotes));
   const [welcomeQuote] = useState(() => randomize(welcomeRandomQuotes));
 
-
   const popularityTimeframe = [
     "This week", 
     "This month", 
     "This year"
   ];
-
-  const bookWidth = "287px";
   
+  useEffect(() => {
+    if (!showRecommended || !user) return;
+
+    const abortController = new AbortController();
+    setRecommendedBookError(null);
+
+    getAccountRecommendedBooks(user.account_id, abortController.signal)
+      .then(setRecommendedBooks)
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        setRecommendedBookError('Could not find recommended books! (Start by reviewing a book!)');
+      })
+
+    return () => abortController.abort();
+  }, [showRecommended, user?.account_id]);
+
+  useEffect(() => {
+    if (!showPopular) return;
+
+    const abortController = new AbortController();
+    setPopularBookError(null);
+
+    getPopularBooks(abortController.signal)
+      .then(setPopularBooks)
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        setPopularBookError('Could not find popular books!');
+      })
+
+    return () => abortController.abort();
+  }, [showRecommended]);
+
   return (
     <div>
       <Navbar/>
@@ -62,38 +99,44 @@ const Home = () => {
       
       <div className="bookSuggestionPanels">
         {isLoggedIn && showRecommended && (
-          <div id="recommended-color" className="bookSuggestionPanel">
+          <div className="bookSuggestionPanel recommended-color">
             <div className="bookSuggestionPanelHeader">
-              <div id="popular-color" className="recommendedRandomQuote"><p>{recommendedQuote}</p></div>
+              <div className="recommendedRandomQuote popular-color"><p>{recommendedQuote}</p></div>
               <h3>Recommended</h3>
+            {recommendedBookError && <p>{recommendedBookError}</p>}
             </div>
             <div className="bookSuggestionPanelBody">
-              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
-              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
-              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
-              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
-              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
+              {recommendedBooks.map((recommended) => (
+                <div key={recommended.key}>
+                  <Link to={`/book/${recommended.key}`}>
+                    <img src={coverURL(recommended.cover, 'L')}/>
+                  </Link>
+                </div>
+              ))}
             </div>
           </div>
         )}
 
         {showPopular && (
-          <div id="popular-color" className="bookSuggestionPanel">
+          <div className="bookSuggestionPanel popular-color">
             <div className="bookSuggestionPanelHeader">
-              <div id="recommended-color" className="popularRandomQuote"><p>{popularQuote}</p></div>
+              <div className="popularRandomQuote recommended-color"><p>{popularQuote}</p></div>
               <h3>Popular</h3>
               <select className="popularityTimeFrameSelector">
                 <option>{popularityTimeframe[0]}</option>
                 <option>{popularityTimeframe[1]}</option>
                 <option>{popularityTimeframe[2]}</option>
               </select>
+            {popularBookError && <p>{popularBookError}</p>}
             </div>
             <div className="bookSuggestionPanelBody">
-              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
-              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
-              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
-              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
-              <div><img src="/cover-placeholder.svg" width={bookWidth}/></div>
+              {popularBooks.map((popular) => (
+                <div key={popular.key}>
+                  <Link to={`/book/${popular.key}`}>
+                    <img src={coverURL(popular.cover, 'L')}/>
+                  </Link>
+                </div>
+              ))}
             </div>
           </div>
         )}

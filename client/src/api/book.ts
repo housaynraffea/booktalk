@@ -6,6 +6,21 @@ export type Book = {
     cover: number | null;
 }
 
+export type PopularBook = {
+    key: string;
+    title: string;
+    cover: number | null;
+    stars: string;
+}
+
+export type RecommendedBook = {
+    key: string;
+    title: string;
+    cover: number | null;
+    score: number;
+    recommenders: number;
+};
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export async function searchBooks(searchText: string, signal: AbortSignal): Promise<Book[]> {
@@ -26,6 +41,30 @@ export async function getBook(searchText: string, signal: AbortSignal): Promise<
     if (response.status === 400) return null;
     if (!response.ok) throw new Error("Book search failed");
     return await response.json();
+}
+
+export async function getPopularBooks(signal: AbortSignal): Promise<PopularBook[]> {
+    const response = await fetch(
+        `${API_URL}/books/popular`,
+        { signal });
+    
+    if (response.status === 400) return [];
+    if (!response.ok) throw new Error("Get Popular Books failed");
+    
+    const data = await response.json();
+    return data.books;
+}
+
+export async function getAccountRecommendedBooks(account_id: number, signal: AbortSignal): Promise<RecommendedBook[]> {
+    const response = await fetch(
+        `${API_URL}/books/recommended/${account_id}`,
+        { signal, credentials: "include" });
+    
+    if (response.status === 400) return [];
+    if (!response.ok) throw new Error("Get Recommended Books failed");
+    
+    const data = await response.json();
+    return data.books;
 }
 
 export function coverURL(coverId: number | null, size: "S" | "M" | "L" = "M") {
