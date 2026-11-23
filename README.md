@@ -60,7 +60,7 @@ Unfortunately, since I know this is public, and since I know that many people ca
     └── .env.example             Example environment file
 ```
 
-Imports across the client's folders use the `@/` alias, which maps to `src/`
+Imports across the client's folders use the `@/` prefix, which maps to `src/`
 (for example `@/common/components/global/navbar.tsx`). It's configured in both
 `vite.config.ts` and `tsconfig.app.json` for the client-side code, so make sure that both files are synced there.
 
