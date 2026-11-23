@@ -90,7 +90,7 @@ You'll also notice that the .env.example file has a `SESSION_SECRET` variable. T
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-This secret variable is used by express to hash the current session, in order to prevent session highjacking.
+This secret variable is used by express to hash the current session, in order to prevent session hijacking.
 
 #### Project
 
