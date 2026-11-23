@@ -125,7 +125,6 @@ Everything in the API is done on port 3000. This project is planned to have more
 |GET|/books/:key|Get one book|
 |GET|/books/recommended/:account_id|Get 5 recommended books for an account|
 |GET|/books/popular|Get 5 popular books|
-|GET|/books/:key|Get a book by its key|
 |GET|/books/:key/reviews|Get all reviews from one book|
 |POST|/books/:key/reviews|Create/Update a review|
 
@@ -148,7 +147,7 @@ Everything in the API is done on port 3000. This project is planned to have more
 |DELETE|/reviews/:review_id|Delete one review|
 |GET|/reviews/:review_id/comments|Get all comments in one review|
 |POST|/reviews/:review_id/comments|Create a comment in one review|
-|DELETE|/reviews/:comment_id|Delete your comment from a review|
+|DELETE|/comments/:comment_id|Delete your comment from a review|
 
 ## Website
 
