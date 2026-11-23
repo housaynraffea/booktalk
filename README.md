@@ -147,7 +147,9 @@ Everything in the API is done on port 3000. This project is planned to have more
 |DELETE|/reviews/:review_id|Delete one review|
 |GET|/reviews/:review_id/comments|Get all comments in one review|
 |POST|/reviews/:review_id/comments|Create a comment in one review|
-|DELETE|/comments/:comment_id|Delete your comment from a review|
+|DELETE|/reviews/:comment_id|Delete your comment from a review|
+
+You might have noticed that the Comments API was bundled up with the Reviews API. This is because comments in general are such a small part in the entire project that I figured "since the Review API is the only one using comments, and since the Comments API only has one method, why not just put them together?" (Even if they have their own table in the database).
 
 ## Website
 
