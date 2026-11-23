@@ -147,9 +147,9 @@ Everything in the API is done on port 3000. The following API methods are curren
 |POST|/reviews/:review_id/comments|Create a comment in one review|
 |DELETE|/reviews/:comment_id|Delete your comment from a review|
 
-You might have noticed that the Comments API was bundled up with the Reviews API. This is because comments in general are such a small part in the entire project that I figured "since the Review API is the only one using comments, and since the Comments API only has one method, why not just put them together?" (Even if they have their own table in the database).
+You might have noticed that the Comments API was bundled up with the Reviews API. This is because comments in general are such a small part in the entire project that I figured "since the Review API is the only one using comments, and since the Comments API only has one method, why not just put them together?" (Even if the 'COMMENT' table exists in the database).
 
 ## Website
 
-While there are two versions of the project (client and server), I cannot find a sustainable & free way to deploy/host the server somewhere (I'm flat broke and I need money). You still have the opportunity to run the project yourself!
+While there are two versions of the project (client and server), I cannot find a sustainable & free way to deploy/host the server somewhere. You still have the opportunity to run the project yourself!
 Otherwise, a link to the website will be provided below.
