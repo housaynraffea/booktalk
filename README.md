@@ -135,7 +135,7 @@ Everything in the API is done on port 3000. The following API methods are curren
 |GET|/accounts/:account_id|Get one account|
 |GET|/accounts/:account_id/reviews|Get all reviews from one account|
 |GET|/accounts/by-username/:username|Get an account by its username|
-|PATCH|/accounts/me|Log into an account|
+|PATCH|/accounts/me|Update account information|
 
 #### Review API
 
