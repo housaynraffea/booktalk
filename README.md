@@ -50,7 +50,7 @@ Unfortunately, since I know this is public, and since I know that many people ca
 │       │   ├── assets/          Images, fonts, etc.
 │       │   └── styles/          Global and shared CSS
 │       └── api/
-├── database/                         PostgreSQL & Database setup scripts
+├── database/                    PostgreSQL & Database setup scripts
 ├── server/                      Server-side code (Database connections & Express server)
     ├── account.ts               Account API for the server
     ├── auth.ts                  Authentication API for the server
