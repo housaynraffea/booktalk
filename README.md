@@ -6,14 +6,14 @@
 
 BookTalk uses the monthly dumps from the Open Library API for the following features in the project:
 
-- Searching for books (either by book title or book author)
+- Searching for books, or for your favorite books in the settings page (either by book title or book author)
 - Showing the book cover, book title, book description (if available), book author for:
   - Reviews from users that use said book
-  - Home-page's "Recommended"-section (Cover only)
-  - Home-page's "Popular"-section (Cover only)
-  - The "Favourite book" for a user's profile page (Cover only)
-  - The list of reviews on books that a user has made, available on their profile page (Cover only)
-  - The private list of liked reviews, available (privately) on a user's profile page (Cover only)
+  - Home-page's "Recommended"-section (Cover)
+  - Home-page's "Popular"-section (Cover)
+  - The "Favourite book" for a user's profile page (Cover)
+  - The list of reviews on books that a user has made, available on their profile page (Cover)
+  - The private list of liked reviews, available (privately) on a user's profile page (Cover)
 
 BookTalk is mainly inspired by letterboxd.
 
