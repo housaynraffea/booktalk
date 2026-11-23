@@ -49,7 +49,7 @@ Unfortunately, since I know this is public, and since I know that many people ca
 │       │   ├── context/         React context providers
 │       │   ├── assets/          Images, fonts, etc.
 │       │   └── styles/          Global and shared CSS
-│       └── api/
+│       └── api/                 API methods used throughout the website
 ├── database/                    PostgreSQL & Database setup scripts
 ├── server/                      Server-side code (Database connections & Express server)
     ├── account.ts               Account API for the server
