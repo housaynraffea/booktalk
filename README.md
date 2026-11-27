@@ -46,22 +46,15 @@ cd server
 cp .env.example .env
 ```
 
-3. You can run the client and server individually, but the `concurrently` npm package comes installed with the project, so you can instead run `npm run dev` from the project root like so:
-
-```sh
-cd ..
-npm run dev
-```
+3. You can run both the client and server individually if you want to. The `concurrently` npm package comes installed with the project, so you can run `npm run dev` from the project root. This runs both the client and the server at the same time.
 
 ### Project structure
 
 ```none
 .
 ├── client/                      Client-side code (React + Vite & TypeScript)
-│   ├── index.html               Main app entry
 │   ├── public/                  Static assets
 │   └── src/
-│       ├── main.tsx             Main app render
 │       ├── pages/               Route-level pages
 │       ├── features/
 │       │   └── routes/          AppRoutes: the app's route table
