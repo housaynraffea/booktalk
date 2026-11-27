@@ -51,13 +51,7 @@ Unfortunately, since I know this is public, and since I know that many people ca
 │       │   └── styles/          Global and shared CSS
 │       └── api/                 API methods used throughout the website
 ├── database/                    PostgreSQL & Database setup scripts
-├── server/                      Server-side code (Database connections & Express server)
-    ├── account.ts               Account API for the server
-    ├── auth.ts                  Authentication API for the server
-    ├── book.ts                  Book API for the server
-    ├── index.ts                 Main file for the server (runs all APIs in the folder)
-    ├── review.ts                Review API for the server
-    └── .env.example             Example environment file
+└── server/                      Server-side code (Database connections, APIs & Express server)
 ```
 
 Imports across the client's folders use the `@/` prefix, which maps to `src/`
