@@ -16,6 +16,35 @@
     margin-top: 0;
 }
 
+.bookReviewUser {
+    display: flex;
+    flex-direction: row;
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.bookReviewForm textarea {
+    background: var(--bg);
+    color: var(--accent-text);
+}
+
+.bookReviewForm button {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    background: var(--accent4);
+    color: var(--accent-text);
+}
+
+.bookReviewUserInfo {
+    display: flex;
+    flex-direction: column;
+}
+
 .bookReviews {
     color: var(--accent-text);
     background: var(--accent1);

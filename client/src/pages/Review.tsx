@@ -114,6 +114,11 @@ const Review = () => {
                   <Stars value={review.stars}/>
                 </div>
               </div>
+              <div className="deleteReview">
+                {user?.account_id === review.account_id && (
+                  <button onClick={onDeleteReview}><img src="/buttons/bin.svg" width="30px"/></button>
+                )}
+              </div>
             </div>
 
             {review.description && (
@@ -129,9 +134,7 @@ const Review = () => {
                 <p>Last Reviewed: {new Date(review.created_at).toLocaleDateString('nb-NO')}</p>
                 <p>Last Updated: {new Date(review.updated_at).toLocaleDateString('nb-NO')}</p>
               </div>
-              {user?.account_id === review.account_id && (
-                <button onClick={onDeleteReview}>Delete Review</button>
-              )}
+              
             </div>
           </div>
         </div>
@@ -148,16 +151,17 @@ const Review = () => {
         </div>
         
         {user && (
-          <form onSubmit={onComment}>
-            <textarea
-              value={newComment}
-              className="textarea"
-              onChange={(e) => setNewComment(e.target.value)}
-              maxLength={1000}
-              placeholder="Write a comment for this review!"
-            />
-            <button type="submit" disabled={newComment.trim() === ''}>Post</button>
-          </form>
+          <div className="postComment">
+            <form onSubmit={onComment}>
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                maxLength={1000}
+                placeholder="Write a comment for this review!"
+              />
+              <button type="submit" disabled={newComment.trim() === ''}>Post</button>
+            </form>
+          </div>
         )}
 
         {error && <p>{error}</p>}
@@ -177,8 +181,10 @@ const Review = () => {
                 <div className="commentDescription">
                   <p>{comment.comment}</p>
                 </div>
+              </div>
+              <div className="deleteComment">
                 {user?.account_id === comment.account_id && (
-                  <button onClick={() => onDeleteComment(comment.comment_id)}>Delete</button>
+                  <button onClick={() => onDeleteComment(comment.comment_id)}><img src="/buttons/bin.svg" width="30px"/></button>
                 )}
               </div>
             </div>

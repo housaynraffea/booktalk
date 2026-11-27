@@ -273,10 +273,6 @@ const Settings = () => {
                       </div>
                     </form>
                   )}
-
-                  <p>Change email</p>
-                  <p>Change password</p>
-
                   <button type="button" onClick={() => handleLogout()}>Log out</button>
 
                 </div>

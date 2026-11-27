@@ -4,6 +4,7 @@ import Stars from '@/common/components/review/stars';
 import { getBookReviews, saveReview, type Review } from '@/api/review';
 import '@/common/styles/book.css'
 import ProfilePicture from '@/common/components/global/profile-picture';
+import { useAuth } from '@/common/context/AuthContext';
 
 type Props = {
   book_key: string;
@@ -11,6 +12,7 @@ type Props = {
 }
 
 const BookReviews = ({book_key, logged_in}: Props) => {
+  const { user } = useAuth();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [stars, setStars] = useState(0);
   const [description, setDescription] = useState('');
@@ -22,6 +24,10 @@ const BookReviews = ({book_key, logged_in}: Props) => {
   }
 
   useEffect(() => {
+    if (!user) {
+      return;
+    }
+
     const abortController = new AbortController();
     load(abortController.signal).catch((e) => {
       if (e instanceof DOMException && e.name === 'AbortError') return;
@@ -56,18 +62,27 @@ const BookReviews = ({book_key, logged_in}: Props) => {
 
   return (
     <div className="bookReviews">
-      {logged_in ? (
-        <form onSubmit={onSubmit}>
-          <Stars value={stars} onChange={setStars}/>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Write a review (optional)"
-            maxLength={5000}
-          />
+      {logged_in && user ? (
+        <div className="bookReviewForm">
+          <form onSubmit={onSubmit}>
+            <div className="bookReviewUser">
+              <ProfilePicture account_id={user.account_id} size={75}/>
+              <div className="bookReviewUserInfo">
+                <strong>{user?.display_name}</strong>
+                <Stars value={stars} onChange={setStars}/>
+              </div>
+              (@{user?.username})
+            </div>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Write a review (optional)"
+              maxLength={5000}
+            />
 
-          <button type="submit" disabled={isSaving}>Post Review</button>
-        </form>
+            <button type="submit" disabled={isSaving}>Post</button>
+          </form>
+        </div>
       ) : (
         <p>You must be logged in to review this book!</p>
       )}
