@@ -18,7 +18,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export async function getAccountReviews(account_id: number, signal?: AbortSignal): Promise<Review[]> {
     const response = await fetch(`${API_URL}/accounts/${account_id}/reviews`, { signal });
 
-    if (!response.ok) throw new Error("Could not find account!");
+    if (!response.ok) throw new Error("Could not find reviews from account!");
     const data = await response.json();
     return data.reviews;
 }
@@ -26,7 +26,7 @@ export async function getAccountReviews(account_id: number, signal?: AbortSignal
 export async function getBookReviews(book_key: string, signal?: AbortSignal): Promise<Review[]> {
     const response = await fetch(`${API_URL}/books/${encodeURIComponent(book_key)}/reviews`, { signal });
 
-    if (!response.ok) throw new Error("Could not load review!");
+    if (!response.ok) throw new Error("Could not load reviews!");
     const data = await response.json();
     return data;
 }

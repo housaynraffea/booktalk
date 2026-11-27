@@ -61,20 +61,24 @@ const Review = () => {
   }
 
   async function onDeleteComment(comment_id: number) {
-    try {
-      await deleteComment(comment_id);
-      setComments((current) => current.filter((comment) => comment.comment_id !== comment_id));
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Could not delete comment!')
+    if (confirm("Are you sure you want to delete your comment? (This is irreversible!)")) {
+      try {
+        await deleteComment(comment_id);
+        setComments((current) => current.filter((comment) => comment.comment_id !== comment_id));
+      } catch (error) {
+        setError(error instanceof Error ? error.message : 'Could not delete comment!')
+      }
     }
   }
 
   async function onDeleteReview() {
-    try {
-      await deleteReview(id);
-      navigate(`/book/${encodeURIComponent(review!.book_key)}`);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Could not delete review!')
+    if (confirm("Are you sure you want to delete your review? (This is irreversible!)")) {
+      try {
+        await deleteReview(id);
+        navigate(`/book/${encodeURIComponent(review!.book_key)}`);
+      } catch (error) {
+        setError(error instanceof Error ? error.message : 'Could not delete review!')
+      }
     }
   }
 
@@ -132,7 +136,7 @@ const Review = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="comments">
         <div className="commentsHeader">
           <h2>Comments</h2>
@@ -143,7 +147,7 @@ const Review = () => {
           </select>
         </div>
         
-        {user?.account_id !== null && (
+        {user && (
           <form onSubmit={onComment}>
             <textarea
               value={newComment}

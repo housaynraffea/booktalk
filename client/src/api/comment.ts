@@ -13,7 +13,6 @@ export type CommentWithAccount = Comment & {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-
 export async function getComments(review_id: number, signal?: AbortSignal): Promise<CommentWithAccount[]> {
     const response = await fetch(`${API_URL}/reviews/${review_id}/comments`, { signal });
 
@@ -30,18 +29,16 @@ export async function addComment(review_id: number, comment: string): Promise<vo
         body: JSON.stringify({ comment }),
     });
 
-    if (!response.ok) throw new Error("Could not load review!");
+    if (!response.ok) throw new Error("Could not post comment!");
     const data = await response.json();
     return data;
 }
 
 export async function deleteComment(comment_id: number): Promise<void> {
-    const response = await fetch(`${API_URL}/comments/${comment_id}`, {
+    const response = await fetch(`${API_URL}/reviews/comments/${comment_id}`, {
         method: "DELETE",
         credentials: "include",
     });
 
-    if (!response.ok) throw new Error("Could not load review!");
-    const data = await response.json();
-    return data;
+    if (!response.ok) throw new Error("Could not delete comment!");
 }

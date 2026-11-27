@@ -128,7 +128,7 @@ export function createReviewRouter(pool: Pool): Router {
         }
     });
 
-    router.delete("/:comment_id", requireLogin, async (request, response) => {
+    router.delete("/comments/:comment_id", requireLogin, async (request, response) => {
         const comment_id = Number(request.params.comment_id);
 
         if (!Number.isInteger(comment_id)) {
@@ -143,7 +143,7 @@ export function createReviewRouter(pool: Pool): Router {
             );
 
             if (result.rowCount === 0) {
-                response.status(404).json({ error: "Comment not found!" });
+                response.status(404).json({ error: "Could not delete comment (Comment not found!)" });
                 return;
             }
 
@@ -151,7 +151,7 @@ export function createReviewRouter(pool: Pool): Router {
         }
         catch (error) {
             console.log("Error executing query:", error);
-            response.status(500).json({ error: "Could not post comment!" });
+            response.status(500).json({ error: "Could not delete comment!" });
         }
     });
 

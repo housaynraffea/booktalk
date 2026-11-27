@@ -56,7 +56,7 @@ export async function searchAccounts(searchText: string, signal: AbortSignal): P
         `${API_URL}/accounts/search?q=${encodeURIComponent(searchText)}`,
         { signal });
     
-    if (!response.ok) throw new Error("Account search failed!");
+    if (!response.ok) throw new Error("Could not find account! (Search returned nothing)");
     const data = await response.json();
     return data.accounts;
 }
@@ -65,7 +65,7 @@ export async function getAccount(account_id: number, signal?: AbortSignal): Prom
     const response = await fetch(`${API_URL}/accounts/${account_id}`, { signal });
 
     if (response.status === 404) return null;
-    if (!response.ok) throw new Error("Could not find account!");
+    if (!response.ok) throw new Error("Could not find account! (Invalid Account ID)");
     return await response.json();
 };
 
@@ -73,7 +73,7 @@ export async function getAccountByUsername(username: string, signal?: AbortSigna
     const response = await fetch(`${API_URL}/accounts/by-username/${encodeURIComponent(username)}`, { signal });
 
     if (response.status === 404) return null;
-    if (!response.ok) throw new Error("Could not find account!");
+    if (!response.ok) throw new Error("Could not find account! (Invalid Account username)");
     return await response.json();
 }
 

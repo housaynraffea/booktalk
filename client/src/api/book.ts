@@ -28,7 +28,7 @@ export async function searchBooks(searchText: string, signal: AbortSignal): Prom
         `${API_URL}/books/search?q=${encodeURIComponent(searchText)}`,
         { signal });
     
-    if (!response.ok) throw new Error("Search failed");
+    if (!response.ok) throw new Error("Search failed!");
     const data = await response.json();
     return data.books;
 }
@@ -39,7 +39,7 @@ export async function getBook(searchText: string, signal: AbortSignal): Promise<
         { signal });
     
     if (response.status === 400) return null;
-    if (!response.ok) throw new Error("Book search failed");
+    if (!response.ok) throw new Error("Could not load book!");
     return await response.json();
 }
 
@@ -49,7 +49,7 @@ export async function getPopularBooks(signal: AbortSignal): Promise<PopularBook[
         { signal });
     
     if (response.status === 400) return [];
-    if (!response.ok) throw new Error("Get Popular Books failed");
+    if (!response.ok) throw new Error("Could not load popular books!");
     
     const data = await response.json();
     return data.books;
@@ -61,7 +61,7 @@ export async function getAccountRecommendedBooks(account_id: number, signal: Abo
         { signal, credentials: "include" });
     
     if (response.status === 400) return [];
-    if (!response.ok) throw new Error("Get Recommended Books failed");
+    if (!response.ok) throw new Error("Could not load recommended books!");
     
     const data = await response.json();
     return data.books;
