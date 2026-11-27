@@ -2,18 +2,16 @@
 
 > This project is actively being developed, so changes can come to the README-file too (The project is nearing its final stages)
 
-**BookTalk** is a 'social' book-reviewing website where users can search for and *review* books that they have read (by putting *1-5 stars* and an *optional description* of the review), and where other users can also *comment* on the reviews. Other people can also *like* the reviews, which eventually appear on the user's own profile page. The reviews the user liked are only available for them on their own profile page, not to others. On the homepage, you can find *recommended books* (for you), and *popular books* (for everyone). The user can decide if they want to remove these two features from the homepage in the website's *settings*. Other things you can do in the *settings* page are (for example), change your profile picture, username and password, change the website's theme, etc.
+**BookTalk** is a 'social' book-reviewing website where users can search for and *review* books that they have read (by putting *1-5 stars* and an *optional description* of the review), and where other users can also *comment* on the reviews. On the homepage, you can find *recommended books* (for you), and *popular books* (for everyone). The user can decide if they want to remove these two features from the homepage in the website's *settings*. Other things you can do in the *settings* page are (for example), change your profile picture, username and password, change the website's theme, and more.
 
 BookTalk uses the monthly dumps from the Open Library API for the following features in the project:
 
-- Searching for books (either by book title or book author)
+- Searching for books, or for your favorite books in the settings page (either by book title or book author)
 - Showing the book cover, book title, book description (if available), book author for:
   - Reviews from users that use said book
-  - Home-page's "Recommended"-section (Cover only)
-  - Home-page's "Popular"-section (Cover only)
-  - The "Favourite book" for a user's profile page (Cover only)
-  - The list of reviews on books that a user has made, available on their profile page (Cover only)
-  - The private list of liked reviews, available (privately) on a user's profile page (Cover only)
+  - Home-page's "Recommended" and "Popular" panels (Cover)
+  - The "Favourite book" in a user's profile page (Cover)
+  - The list of reviews on books that a user has made, available on their profile page (Cover)
 
 BookTalk is mainly inspired by letterboxd.
 
@@ -30,15 +28,33 @@ Unfortunately, since I know this is public, and since I know that many people ca
 
 ## Get started
 
+1. Clone the project and run `npm install` after to install the project's dependencies:
+
+```bash
+git clone https://github.com/housaynraffea/booktalk.git
+cd booktalk
+npm install
+```
+
+2. Copy the .env.example files in both the server & client folder:
+
+```bash
+cd client
+cp .env.example .env
+cd ..
+cd server
+cp .env.example .env
+```
+
+3. You can run both the client and server individually if you want to. The `concurrently` npm package comes installed with the project, so you can run `npm run dev` from the project root. This runs both the client and the server at the same time.
+
 ### Project structure
 
 ```none
 .
 ├── client/                      Client-side code (React + Vite & TypeScript)
-│   ├── index.html               Main app entry
 │   ├── public/                  Static assets
 │   └── src/
-│       ├── main.tsx             Main app render
 │       ├── pages/               Route-level pages
 │       ├── features/
 │       │   └── routes/          AppRoutes: the app's route table
@@ -51,18 +67,13 @@ Unfortunately, since I know this is public, and since I know that many people ca
 │       │   ├── context/         React context providers
 │       │   ├── assets/          Images, fonts, etc.
 │       │   └── styles/          Global and shared CSS
-│       └── api/
-├── server/                      Server-side code (Database connections & Express server)
-    ├── account.ts               Account API for the server
-    ├── auth.ts                  Authentication API for the server
-    ├── book.ts                  Book API for the server
-    ├── index.ts                 Main file for the server (runs all APIs in the folder)
-    ├── review.ts                Review API for the server
-    └── .env.example             Example environment file
+│       └── api/                 API methods used throughout the website
+├── database/                    PostgreSQL & Database setup scripts
+└── server/                      Server-side code (Database connections, APIs & Express server)
 ```
 
-Imports across the client's folders use the `@/` alias, which maps to `src/`
-(for example `@/common/components/navbar`). It's configured in both
+Imports across the client's folders use the `@/` prefix, which maps to `src/`
+(for example `@/common/components/global/navbar.tsx`). It's configured in both
 `vite.config.ts` and `tsconfig.app.json` for the client-side code, so make sure that both files are synced there.
 
 ### Scripts
@@ -92,7 +103,7 @@ You'll also notice that the .env.example file has a `SESSION_SECRET` variable. T
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-This secret variable is used by express to hash the current session, in order to prevent session highjacking.
+This secret variable is used by express to hash the current session, in order to prevent session hijacking.
 
 #### Project
 
@@ -108,14 +119,14 @@ The `concurrently` npm package allows executing multiple commands, concurrently.
 
 Everything in the API is done on port 3000. The following API methods are currently available:
 
-#### Auth API
+#### Authentication API
 
 |Method|End point|Description|
 |------|---------|----------|
-|POST|/register|Register a new account|
-|POST|/login|Log into an account|
-|POST|/logout|Log out of an account|
-|GET|/me|Get user information (account id, username, display name)|
+|POST|/auth/register|Register a new account|
+|POST|/auth/login|Log into an account|
+|POST|/auth/logout|Log out of an account|
+|GET|/auth/me|Get user information (account id, username, display name)|
 
 #### Books API
 
@@ -137,7 +148,7 @@ Everything in the API is done on port 3000. The following API methods are curren
 |GET|/accounts/:account_id|Get one account|
 |GET|/accounts/:account_id/reviews|Get all reviews from one account|
 |GET|/accounts/by-username/:username|Get an account by its username|
-|PATCH|/accounts/me|Log into an account|
+|PATCH|/accounts/me|Update account information|
 
 #### Review API
 
@@ -149,9 +160,7 @@ Everything in the API is done on port 3000. The following API methods are curren
 |POST|/reviews/:review_id/comments|Create a comment in one review|
 |DELETE|/reviews/:comment_id|Delete your comment from a review|
 
-You might have noticed that the Comments API was bundled up with the Reviews API. This is because comments in general are such a small part in the entire project that I figured "since the Review API is the only one using comments, and since the Comments API only has one method, why not just put them together?" (Even if they have their own table in the database).
-
 ## Website
 
-While there are two versions of the project (client and server), I cannot find a sustainable & free way to deploy/host the server somewhere (I'm flat broke and I need money). You still have the opportunity to run the project yourself!
+While there are two versions of the project (client and server), I cannot find a sustainable & free way to deploy/host the server somewhere. You still have the opportunity to run the project yourself!
 Otherwise, a link to the website will be provided below.
