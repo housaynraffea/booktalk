@@ -30,7 +30,7 @@ Unfortunately, since I know this is public, and since I know that many people ca
 
 1. Clone the project and run `npm install` after to install the project's dependencies:
 
-```sh
+```bash
 git clone https://github.com/housaynraffea/booktalk.git
 cd booktalk
 npm install
@@ -38,7 +38,7 @@ npm install
 
 2. Copy the .env.example files in both the server & client folder:
 
-```sh
+```bash
 cd client
 cp .env.example .env
 cd ..
