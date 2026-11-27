@@ -53,7 +53,7 @@ const Book = () => {
               {book.description && <p>{book.description}</p>}
             </div>
           </div>
-          <BookReviews book_key={book.key} logged_in={!!user}/>
+          <BookReviews book_key={book.key}/>
           <Footer/>
         </div>
     </div>

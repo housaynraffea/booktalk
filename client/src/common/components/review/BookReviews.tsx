@@ -8,10 +8,9 @@ import { useAuth } from '@/common/context/AuthContext';
 
 type Props = {
   book_key: string;
-  logged_in: boolean;
 }
 
-const BookReviews = ({book_key, logged_in}: Props) => {
+const BookReviews = ({book_key}: Props) => {
   const { user } = useAuth();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [stars, setStars] = useState(0);
@@ -24,15 +23,17 @@ const BookReviews = ({book_key, logged_in}: Props) => {
   }
 
   useEffect(() => {
-    if (!user) {
-      return;
-    }
-
     const abortController = new AbortController();
+    
+    setReviews([]);
+    setError(null);
+    
     load(abortController.signal).catch((e) => {
       if (e instanceof DOMException && e.name === 'AbortError') return;
       setError('Could not load reviews!');
     });
+
+    return () => abortController.abort();
   }, [book_key]);
 
   async function onSubmit(event: FormEvent) {
@@ -62,7 +63,7 @@ const BookReviews = ({book_key, logged_in}: Props) => {
 
   return (
     <div className="bookReviews">
-      {logged_in && user ? (
+      {user ? (
         <div className="bookReviewForm">
           <form onSubmit={onSubmit}>
             <div className="bookReviewUser">
