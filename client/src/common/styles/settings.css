@@ -1,37 +1,4 @@
-.settingsSidebar {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  width: 200px;
-  position: fixed;
-  background-color: var(--border);
-  color: var(--text);
-  height: 100%;
-  overflow: auto;
-}
-
-.settingsSidebar h2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--text);
-}
-
-.settingsSidebar a {
-  color: var(--text);
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.settingsSidebar a:hover:not(.active) {
-  background-color: var(--accent1);
-}
-
 div.settingsContent {
-  margin-left: 200px;
   padding: 1px 16px;
   height: 100px;
 }
@@ -124,7 +91,12 @@ h2 {
 
 .settingsField {
   background-color: var(--bg);
-  color: white;
+  color: var(--accent-text);
+}
+
+.textarea {
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 .profileInfoBio input {

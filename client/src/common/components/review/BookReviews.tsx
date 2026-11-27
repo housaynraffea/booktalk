@@ -2,6 +2,8 @@ import { useState, useEffect, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import Stars from '@/common/components/review/stars';
 import { getBookReviews, saveReview, type Review } from '@/api/review';
+import '@/common/styles/book.css'
+import ProfilePicture from '@/common/components/global/profile-picture';
 
 type Props = {
   book_key: string;
@@ -75,11 +77,16 @@ const BookReviews = ({book_key, logged_in}: Props) => {
 
       {reviews.map((review) => (
         <div key={review.review_id} className="bookReviewItem">
-          <Link to={`/review/${review.review_id}`}>
-            <strong>{review.display_name}</strong>(@{review.username})
-          </Link>
-          <Stars value={review.stars} size={20}/>
-          {review.description && <p>{review.description}</p>}
+          <div className="profile-picture">
+            <ProfilePicture account_id={review.account_id} size={75}/>
+          </div>
+          <div>
+            <Link to={`/review/${review.review_id}`}>
+              <strong>{review.display_name}</strong>(@{review.username})
+            </Link>
+            <Stars value={review.stars} size={20}/>
+            {review.description && <p>{review.description}</p>}
+          </div>
         </div>
       ))}
     </div>

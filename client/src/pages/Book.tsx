@@ -42,18 +42,20 @@ const Book = () => {
   return (
     <div>
         <Navbar/>
-        <div className="bookInfo">
-          <div className="bookInfoCover">
-            <img src={coverURL(book.cover, 'L')} alt="" width="400px"/>
+        <div>
+          <div className="bookInfo">
+            <div className="bookInfoCover">
+              <img src={coverURL(book.cover, 'L')} alt="" width="400px"/>
+            </div>
+            <div className="bookInfoText">
+              <h1>{book.title}</h1>
+              <p>{book.authors}</p>
+              {book.description && <p>{book.description}</p>}
+            </div>
           </div>
-          <div className="bookInfoText">
-            <h1>{book.title}</h1>
-            <p>{book.authors}</p>
-            {book.description && <p>{book.description}</p>}
-          </div>
+          <BookReviews book_key={book.key} logged_in={!!user}/>
+          <Footer/>
         </div>
-        <BookReviews book_key={book.key} logged_in={!!user}/>
-        <Footer/>
     </div>
   );
 };

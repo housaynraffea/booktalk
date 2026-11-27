@@ -1,11 +1,49 @@
+.book {
+    display: flex;
+    flex-direction: column;
+}
 .bookInfo {
-    margin: 2rem;
     display: flex;
     flex-direction: row;
     gap: 1rem;
+    margin: 1rem;
+    margin-right: auto;
+    background: var(--bg);
 }
 
 .bookInfoText h1 {
     line-height: 3rem;
     margin-top: 0;
+}
+
+.bookReviews {
+    color: var(--accent-text);
+    background: var(--accent1);
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 15px;
+    gap: 1rem;
+}
+
+.bookReviews h2 {
+    color: var(--accent-text);
+}
+
+.profile-picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bookReviewItem {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    background: var(--accent2);
+    border-radius: 15px;
+    margin: 0.5rem;
+    margin-left: 0.125rem;
+    margin-right: 0.125rem;
+    padding: 0.5rem;
+    color: var(--accent-text);
 }

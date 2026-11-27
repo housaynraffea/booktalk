@@ -131,53 +131,54 @@ const Review = () => {
             </div>
           </div>
         </div>
+      </div>
+      
+      <div className="comments">
+        <div className="commentsHeader">
+          <h2>Comments</h2>
+          <select value={sort} onChange={(e) => setSort(e.target.value as 'newest' | 'oldest')}>
+            
+            <option value='newest'>Newest</option>
+            <option value='oldest'>Oldest</option>
+          </select>
+        </div>
+        
+        {user?.account_id !== null && (
+          <form onSubmit={onComment}>
+            <textarea
+              value={newComment}
+              className="textarea"
+              onChange={(e) => setNewComment(e.target.value)}
+              maxLength={1000}
+              placeholder="Write a comment for this review!"
+            />
+            <button type="submit" disabled={newComment.trim() === ''}>Post</button>
+          </form>
+        )}
 
-        <div className="comments">
-          <div className="commentsHeader">
-            <h2>Comments</h2>
-            <select value={sort} onChange={(e) => setSort(e.target.value as 'newest' | 'oldest')}>
-              
-              <option value='newest'>Newest</option>
-              <option value='oldest'>Oldest</option>
-            </select>
-          </div>
-          
-          {user?.account_id !== null && (
-            <form onSubmit={onComment}>
-              <textarea
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                maxLength={1000}
-                placeholder="Write a comment for this review!"
-              />
-              <button type="submit" disabled={newComment.trim() === ''}>Post</button>
-            </form>
-          )}
+        {error && <p>{error}</p>}
 
-          {error && <p>{error}</p>}
-
-          <div className="commentsBody">
-            {sortedComments.map((comment) => (
-              <div className="comment" key={comment.comment_id}>
-                <div className="commentProfilePicture">
-                  <ProfilePicture account_id={comment.account_id} size={50}/>
-                </div>
-                <div className="commentInfo">
-                  <div className="commentProfileDisplayName">
-                    <Link to={`/profile/${comment.username}`}>
-                      <h3>{comment.display_name}</h3>
-                    </Link>
-                  </div>
-                  <div className="commentDescription">
-                    <p>{comment.comment}</p>
-                  </div>
-                  {user?.account_id === comment.account_id && (
-                    <button onClick={() => onDeleteComment(comment.comment_id)}>Delete</button>
-                  )}
-                </div>
+        <div className="commentsBody">
+          {sortedComments.map((comment) => (
+            <div className="comment" key={comment.comment_id}>
+              <div className="commentProfilePicture">
+                <ProfilePicture account_id={comment.account_id} size={50}/>
               </div>
-            ))}
-          </div>
+              <div className="commentInfo">
+                <div className="commentProfileDisplayName">
+                  <Link to={`/profile/${comment.username}`}>
+                    <h3>{comment.display_name}</h3>
+                  </Link>
+                </div>
+                <div className="commentDescription">
+                  <p>{comment.comment}</p>
+                </div>
+                {user?.account_id === comment.account_id && (
+                  <button onClick={() => onDeleteComment(comment.comment_id)}>Delete</button>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <Footer/>

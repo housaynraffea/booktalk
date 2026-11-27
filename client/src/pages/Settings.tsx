@@ -186,13 +186,6 @@ const Settings = () => {
     <div>
         <Navbar/>
         <div>
-          <div className="settingsSidebar">
-            <h2>Content</h2>
-            {isLoggedIn && <a href="#account">Account</a>}
-            <a href="#home">Home</a>
-            <a href="#search">Search</a>
-          </div>
-
           <div className="settingsContent">
             <h1>Settings</h1>
             {isLoggedIn && (
@@ -250,7 +243,7 @@ const Settings = () => {
                           <div className="profileInfoBio">
                             <textarea
                               rows={8}
-                              className="settingsField"
+                              className="settingsField textarea"
                               placeholder='Write something about yourself! Or anything, really!'
                               value={form.bio}
                               maxLength={BIO_MAX}

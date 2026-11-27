@@ -2,6 +2,10 @@
 
 The following files in this folder are BookTalk's CREATE scripts. Generally, you should run `book.sql` first, then `account_review_comment.sql` (But not before the steps below).
 
+The `seed_test.sql` file creates user test data.
+
+## Get started
+
 To start, you should:
 
 1. Download the monthly dumps available in OpenLibrary's website (You only need the 'Authors' and 'Works' dumps. Covers are not needed because they can be fetched directly from 'https://covers.openlibrary.org/').
