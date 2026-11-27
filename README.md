@@ -119,7 +119,7 @@ The `concurrently` npm package allows executing multiple commands, concurrently.
 
 Everything in the API is done on port 3000. The following API methods are currently available:
 
-#### Auth API
+#### Authentication API
 
 |Method|End point|Description|
 |------|---------|----------|
@@ -159,8 +159,6 @@ Everything in the API is done on port 3000. The following API methods are curren
 |GET|/reviews/:review_id/comments|Get all comments in one review|
 |POST|/reviews/:review_id/comments|Create a comment in one review|
 |DELETE|/reviews/:comment_id|Delete your comment from a review|
-
-You might have noticed that the Comments API was bundled up with the Reviews API. This is because comments in general are such a small part in the entire project that I figured "since the Review API is the only one using comments, and since the Comments API only has one method, why not just put them together?" (Even if the 'COMMENT' table exists in the database).
 
 ## Website
 
