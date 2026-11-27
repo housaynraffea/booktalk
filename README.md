@@ -123,10 +123,10 @@ Everything in the API is done on port 3000. The following API methods are curren
 
 |Method|End point|Description|
 |------|---------|----------|
-|POST|/register|Register a new account|
-|POST|/login|Log into an account|
-|POST|/logout|Log out of an account|
-|GET|/me|Get user information (account id, username, display name)|
+|POST|/auth/register|Register a new account|
+|POST|/auth/login|Log into an account|
+|POST|/auth/logout|Log out of an account|
+|GET|/auth/me|Get user information (account id, username, display name)|
 
 #### Books API
 
