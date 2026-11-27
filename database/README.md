@@ -8,7 +8,7 @@ The `seed_test.sql` file creates user test data. Run this after everything in th
 
 To start, you should:
 
-1. Download the monthly dumps available in OpenLibrary's website (You only need the 'Authors' and 'Works' dumps. Covers are not needed because they can be fetched directly from 'https://covers.openlibrary.org/').
+1. Download the monthly dumps available in OpenLibrary's website (You only need the 'Authors' and 'Works' dumps. Covers are not needed because they can be fetched directly from covers.openlibrary.org).
 
 2. Create temporary, unlogged tables `RAW_WORKS_DATA` and `RAW_AUTHORS_DATA` in PostgreSQL for the `load_dumps.py` script to work (it also needs a connection string but you could probably figure that out).
 
