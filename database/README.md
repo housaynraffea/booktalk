@@ -2,7 +2,7 @@
 
 The following files in this folder are BookTalk's CREATE scripts. Generally, you should run `book.sql` first, then `account_review_comment.sql` (But not before the steps below).
 
-The `seed_test.sql` file creates user test data.
+The `seed_test.sql` file creates user test data. Run this after everything in the project (BOOK, ACCOUNT, REVIEW, COMMENT) has been created.
 
 ## Get started
 
