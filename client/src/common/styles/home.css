@@ -22,6 +22,10 @@
     gap: 2rem;
 }
 
+.welcome h1, p {
+    color: var(--text) !important;
+}
+
 .bookSuggestionPanels {
     display: flex;
     flex-direction: column;
@@ -62,6 +66,10 @@
     rotate: -8deg;
 }
 
+.recommendedRandomQuote p {
+    color: var(--accent-text) !important;
+}
+
 .popularRandomQuote {
     position: absolute;
     top: 5%;
@@ -72,6 +80,10 @@
     border-radius: 5px;
     border-color: inherit;
     rotate: -8deg;
+}
+
+.popularRandomQuote p {
+    color: var(--accent-text) !important;
 }
 
 .bookSuggestionPanelBody {
