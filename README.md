@@ -28,6 +28,31 @@ Unfortunately, since I know this is public, and since I know that many people ca
 
 ## Get started
 
+1. Clone the project and run `npm install` after to install the project's dependencies:
+
+```sh
+git clone https://github.com/housaynraffea/booktalk.git
+cd booktalk
+npm install
+```
+
+2. Copy the .env.example files in both the server & client folder:
+
+```sh
+cd client
+cp .env.example .env
+cd ..
+cd server
+cp .env.example .env
+```
+
+3. You can run the client and server individually, but the `concurrently` npm package comes installed with the project, so you can instead run `npm run dev` from the project root like so:
+
+```sh
+cd ..
+npm run dev
+```
+
 ### Project structure
 
 ```none
